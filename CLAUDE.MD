@@ -6,14 +6,15 @@ This is a mobile-first fullstack application playground for exploring AI-assiste
 
 ## Architecture
 
-### Frontend (In Progress)
+### Frontend
 - **Framework**: Angular 20.3.0
+- **UI Framework**: Ionic 8.4.1
 - **Language**: TypeScript 5.9.2
 - **Build Tool**: Angular CLI 20.3.15 with application builder
 - **Testing**: Karma 6.4.0 with Jasmine 5.9.0
 - **Package Manager**: npm 11.7.0
-- **Status**: Recreated with Angular 20 using standalone components
-- **Note**: Ionic Framework and Capacitor not yet added
+- **Status**: Ionic 8 integrated with standalone components
+- **Note**: Capacitor not yet added (web-only for now)
 
 ### Backend (In Progress)
 - **Framework**: Spring Boot 4.0.2
@@ -55,14 +56,19 @@ ai-coding-playground/
 │   └── src/
 │       ├── main.ts           # Application entry point
 │       ├── index.html        # HTML template
-│       ├── styles.css        # Global styles
+│       ├── styles.css        # Global styles (Ionic CSS imports)
 │       └── app/
 │           ├── app.ts        # Root component (standalone)
-│           ├── app.html      # Root component template
+│           ├── app.html      # Root component template (ion-app)
 │           ├── app.css       # Root component styles
-│           ├── app.config.ts # Application configuration
+│           ├── app.config.ts # Application configuration (Ionic providers)
 │           ├── app.routes.ts # Routing configuration
-│           └── app.spec.ts   # Root component tests
+│           ├── app.spec.ts   # Root component tests
+│           └── pages/        # Ionic pages
+│               └── home/     # Home page
+│                   ├── home.page.ts   # Home page component
+│                   ├── home.page.html # Home page template
+│                   └── home.page.css  # Home page styles
 └── backend/
     ├── Dockerfile                    # Multi-stage Docker build
     ├── .dockerignore                 # Backend Docker exclusions
@@ -80,12 +86,14 @@ ai-coding-playground/
 
 ## Current Dependencies
 
-### Frontend Angular
+### Frontend Angular + Ionic
 - `@angular/core` ^20.3.0 - Angular core framework
 - `@angular/common` ^20.3.0 - Common Angular directives and pipes
 - `@angular/router` ^20.3.0 - Angular routing
 - `@angular/forms` ^20.3.0 - Forms handling
 - `@angular/platform-browser` ^20.3.0 - Browser platform
+- `@ionic/angular` ^8.4.1 - Ionic Framework for Angular
+- `ionicons` ^7.4.0 - Ionic icon library
 - `rxjs` ~7.8.0 - Reactive extensions
 - `tslib` ^2.3.0 - TypeScript runtime library
 - `@angular/cli` ^20.3.15 - Angular CLI (dev)
@@ -109,13 +117,15 @@ ai-coding-playground/
 
 1. **Frontend Bootstrap**
    - Angular 20.3.0 standalone application initialized
+   - Ionic 8.4.1 integrated with standalone components
    - TypeScript 5.9.2 configuration
    - Karma/Jasmine testing framework configured
-   - Basic app component structure
-   - Routing infrastructure in place
+   - Home page with Ionic UI components
+   - Routing infrastructure with lazy loading
    - Prettier configured for code formatting (100 char line width)
    - Application builder with development/production configs
    - Modern @angular/build system (vite-based)
+   - Ionic global styles and theming configured
 
 2. **Backend Bootstrap**
    - Spring Boot 4 application initialized
@@ -133,7 +143,7 @@ ai-coding-playground/
 
 ## What's Not Yet Implemented
 
-1. **Frontend Mobile**: Ionic Framework and Capacitor not yet added
+1. **Mobile Native**: Capacitor not yet added (web-only for now)
 2. **Frontend State**: NgRx or advanced state management not configured
 3. **Frontend PWA**: PWA capabilities not yet enabled
 4. **Database**: PostgreSQL not configured, no JPA entities
@@ -142,6 +152,7 @@ ai-coding-playground/
 7. **Testing**: Limited test coverage
 8. **API Documentation**: SpringDoc/Swagger not configured
 9. **Frontend-Backend Integration**: No API integration yet
+10. **Ionic Features**: Many Ionic components not yet utilized
 10. **Kubernetes Deployment**: Production K8s manifests not configured
 
 ## Development Workflow
@@ -213,18 +224,20 @@ cd backend
 ## Key Decisions & Context
 
 1. **Angular Version**: Using Angular 20.3.0 (latest stable)
-2. **Angular Architecture**: Standalone components (no NgModules) - default in Angular 20
-3. **Frontend Testing**: Karma/Jasmine (Angular default)
-4. **TypeScript**: Version 5.9.2
-5. **Code Formatting**: Prettier configured with 100 char line width, single quotes
-6. **Angular Build**: Modern @angular/build (vite-based) instead of webpack
-7. **Java Version**: Using Java 21 (LTS) via toolchain configuration
-8. **Kotlin**: Version 2.2.21 with strict compiler options enabled
-9. **Build Tool**: Gradle with Kotlin DSL preferred over Maven
-10. **Spring Boot**: Using latest stable version 4.0.2
-11. **Development Environment**: Tilt with Docker Compose (no Kubernetes)
-12. **Containerization**: Multi-stage Docker builds for optimized images
-13. **Mobile-First**: Project designed with mobile as primary target
+2. **Ionic Version**: Using Ionic 8.4.1 (latest stable)
+3. **Angular Architecture**: Standalone components (no NgModules) - default in Angular 20
+4. **Ionic Integration**: Standalone Ionic components with provideIonicAngular
+5. **Frontend Testing**: Karma/Jasmine (Angular default)
+6. **TypeScript**: Version 5.9.2
+7. **Code Formatting**: Prettier configured with 100 char line width, single quotes
+8. **Angular Build**: Modern @angular/build (vite-based) instead of webpack
+9. **Java Version**: Using Java 21 (LTS) via toolchain configuration
+10. **Kotlin**: Version 2.2.21 with strict compiler options enabled
+11. **Build Tool**: Gradle with Kotlin DSL preferred over Maven
+12. **Spring Boot**: Using latest stable version 4.0.2
+13. **Development Environment**: Tilt with Docker Compose (no Kubernetes)
+14. **Containerization**: Multi-stage Docker builds for optimized images
+15. **Mobile-First**: Ionic 8 provides mobile-first UI components
 
 ## Planned Features
 
@@ -244,10 +257,12 @@ Based on TECHNOLOGIES.md, the project plans to include:
 - **Technology Stack**: See TECHNOLOGIES.md for full tech stack details
 - **Frontend Location**: All frontend code is in `frontend/`
 - **Frontend Architecture**: Use standalone components (default in Angular 20), not NgModules
+- **Ionic Components**: Import Ionic components from `@ionic/angular/standalone`
 - **Frontend Testing**: Karma/Jasmine configured, use for unit tests
 - **Frontend Formatting**: Prettier configured - run on save or via npm scripts
 - **Angular Version**: Using Angular 20 with modern features (signals, control flow, etc.)
-- **Backend Location**: All backend code is in `backend/aiplayground/`
+- **Ionic Version**: Using Ionic 8 with web components and mobile-first design
+- **Backend Location**: All backend code is in `backend/`
 - **Package Naming**: Use `org.sualk.aiplayground` for all Kotlin/Java classes
 - **Build Commands**: Use `./gradlew` wrapper for backend, `npm` for frontend
 - **Development Environment**: Tilt with Docker Compose for live reload (no Kubernetes)
@@ -320,15 +335,16 @@ git commit -m "message"
 When implementing new features, consider:
 
 ### Frontend
-1. Adding Ionic Framework 8 for mobile UI components
-2. Configuring Capacitor for native mobile capabilities
-3. Implementing Signal-based state management or NgRx
-4. Adding PWA capabilities with @angular/pwa
-5. Creating reusable component library with Angular 20 features
-6. Setting up E2E tests with Playwright
-7. Adding ESLint for code quality
-8. Integrating with backend API
-9. Leveraging Angular 20 features (signals, new control flow, etc.)
+1. Adding Capacitor for native mobile capabilities (iOS/Android)
+2. Implementing Signal-based state management or NgRx
+3. Adding PWA capabilities with @angular/pwa
+4. Creating more Ionic UI components and pages
+5. Setting up E2E tests with Playwright
+6. Adding ESLint for code quality
+7. Integrating with backend API
+8. Implementing Ionic theming and dark mode
+9. Adding native device features (camera, geolocation, etc.) via Capacitor
+10. Creating reusable Ionic component library
 
 ### Backend
 1. Adding Spring Data JPA and PostgreSQL configuration

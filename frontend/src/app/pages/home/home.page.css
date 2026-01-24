@@ -1,0 +1,7 @@
+ion-card {
+  margin-bottom: 1rem;
+}
+
+ion-item {
+  --padding-start: 0;
+}
