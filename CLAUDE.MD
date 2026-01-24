@@ -270,6 +270,7 @@ Based on TECHNOLOGIES.md, the project plans to include:
 - **Testing**: Karma/Jasmine for frontend, JUnit 5 for backend
 - **Code Style**: Follow Angular/TypeScript conventions for frontend, Kotlin conventions for backend
 - **MCP Configuration**: Using angular-cli and context7 MCP servers
+- **Context7 Usage**: Always use Context7 MCP proactively when needing library/API documentation, code generation, setup or configuration steps without requiring explicit user request
 - **Port Forwarding**: Frontend :4200, Backend :8080
 - **Live Reload**: File changes sync automatically via Docker volumes (frontend) and Tilt (backend)
 
