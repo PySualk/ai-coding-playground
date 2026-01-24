@@ -29,7 +29,7 @@ dependencies {
 	runtimeOnly("org.postgresql:postgresql")
 
 	// Database Migration
-	implementation("org.liquibase:liquibase-core")
+	implementation("org.springframework.boot:spring-boot-starter-liquibase")
 
 	// Testing
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
