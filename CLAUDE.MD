@@ -114,6 +114,13 @@ ai-coding-playground/
    - Basic project structure following Spring Boot conventions
    - Test setup with JUnit 5
 
+3. **Docker & Tilt Setup**
+   - Multi-stage Dockerfile for backend (Gradle build + JRE runtime)
+   - Multi-stage Dockerfile for frontend (development + production builds)
+   - Tiltfile for local development with live reload
+   - Nginx configuration for production frontend serving
+   - Docker ignore files for optimized builds
+
 ## What's Not Yet Implemented
 
 1. **Frontend Mobile**: Ionic Framework and Capacitor not yet added
@@ -122,14 +129,37 @@ ai-coding-playground/
 4. **Database**: PostgreSQL not configured, no JPA entities
 5. **API Endpoints**: No REST controllers defined
 6. **Security**: Spring Security not configured
-7. **Docker**: No Docker Compose for local development
-8. **Testing**: Limited test coverage
-9. **API Documentation**: SpringDoc/Swagger not configured
-10. **Frontend-Backend Integration**: No API integration yet
+7. **Testing**: Limited test coverage
+8. **API Documentation**: SpringDoc/Swagger not configured
+9. **Frontend-Backend Integration**: No API integration yet
+10. **Kubernetes Deployment**: Production K8s manifests not configured
 
 ## Development Workflow
 
-### Frontend Development
+### Option 1: Tilt (Recommended)
+
+Tilt provides a unified development environment with live reload for both frontend and backend.
+
+```bash
+# Start both frontend and backend with live reload
+tilt up
+
+# View Tilt UI (opens in browser)
+# http://localhost:10350
+
+# Stop Tilt
+tilt down
+```
+
+**Features:**
+- Automatic Docker image building
+- Live reload for code changes (frontend and backend)
+- Unified logs and resource monitoring
+- Port forwarding: Frontend (4200), Backend (8080)
+
+### Option 2: Local Development (Without Docker)
+
+#### Frontend Development
 ```bash
 # Install dependencies
 cd frontend
@@ -148,10 +178,10 @@ npm test
 npm run watch
 ```
 
-### Backend Development
+#### Backend Development
 ```bash
 # Build the project
-cd backend/aiplayground
+cd backend
 ./gradlew build
 
 # Run the application
@@ -207,32 +237,41 @@ Based on TECHNOLOGIES.md, the project plans to include:
 - **Backend Location**: All backend code is in `backend/aiplayground/`
 - **Package Naming**: Use `org.sualk.aiplayground` for all Kotlin/Java classes
 - **Build Commands**: Use `./gradlew` wrapper for backend, `npm` for frontend
+- **Development Environment**: Tilt for unified development, Docker for containerization
 - **Testing**: Karma/Jasmine for frontend, JUnit 5 for backend
 - **Code Style**: Follow Angular/TypeScript conventions for frontend, Kotlin conventions for backend
 - **MCP Configuration**: Using angular-cli MCP server for Angular best practices
+- **Port Forwarding**: Frontend :4200, Backend :8080
 
 ## Common Commands
 
 ```bash
-# Frontend - Development
+# Tilt - Development (Recommended)
+tilt up                        # Start all services with live reload
+tilt down                      # Stop all services
+tilt logs                      # View logs for all services
+tilt logs backend              # View logs for specific service
+
+# Frontend - Local Development
 cd frontend
 npm install                    # Install dependencies
 npm start                      # Start dev server on :4200
 npm run build                  # Production build
-npm test                       # Run Vitest tests
+npm test                       # Run Karma/Jasmine tests
 npm run watch                  # Build and watch for changes
 
-# Backend - Build and run
-cd backend/aiplayground
+# Backend - Local Development
+cd backend
 ./gradlew clean build          # Clean and build
 ./gradlew bootRun              # Run Spring Boot app
-
-# Backend - Testing
 ./gradlew test                 # Run all tests
 ./gradlew test --tests SpecificTest
+./gradlew dependencies         # Check dependencies
 
-# Backend - Check dependencies
-./gradlew dependencies
+# Docker - Manual build (not needed with Tilt)
+docker build -t ai-playground-backend ./backend
+docker build -t ai-playground-frontend ./frontend
+docker build -t ai-playground-frontend:prod --target production ./frontend
 
 # Git workflow
 git status
@@ -245,6 +284,8 @@ git commit -m "message"
 - **Platform**: macOS (Darwin 25.2.0)
 - **Working Directory**: `/Users/wil/workspace/github/ai-coding-playground`
 - **Repository**: Git initialized with GitHub remote (implied)
+- **Container Runtime**: Docker Desktop or compatible
+- **Development Tool**: Tilt for local development orchestration
 
 ## Future Additions
 
