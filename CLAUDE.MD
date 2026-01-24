@@ -37,6 +37,7 @@ ai-coding-playground/
 ├── README.md                  # Basic project readme
 ├── TECHNOLOGIES.md           # Detailed technology stack documentation
 ├── CLAUDE.MD                 # This file - AI assistant context
+├── CODING-GUIDELINES.md      # Git workflow and commit conventions for AI
 ├── TILT.md                   # Tilt development guide
 ├── Tiltfile                  # Tilt configuration for live reload
 ├── docker-compose.yml        # Docker Compose service definitions
@@ -215,11 +216,7 @@ cd backend
 
 ### Git Workflow
 - **Main Branch**: `main`
-- **Current Status**: Modified files (Docker Compose setup)
-- **Recent Commits**:
-  - `91e0497` - add Docker and Tilt configuration for local development
-  - `078b10a` - move backend code
-  - `ee8b6c5` - recreate Angular 20 frontend and update documentation
+- **Guidelines**: See CODING-GUIDELINES.md for commit conventions, branch naming, and PR templates
 
 ## Key Decisions & Context
 
@@ -254,6 +251,7 @@ Based on TECHNOLOGIES.md, the project plans to include:
 
 ## Notes for AI Assistants
 
+- **Coding Guidelines**: Follow git workflow, commit message format, and PR guidelines in CODING-GUIDELINES.md
 - **Technology Stack**: See TECHNOLOGIES.md for full tech stack details
 - **Frontend Location**: All frontend code is in `frontend/`
 - **Frontend Architecture**: Use standalone components (default in Angular 20), not NgModules
@@ -315,10 +313,7 @@ docker build -t ai-playground-frontend:prod --target production ./frontend
 docker exec -it backend /bin/sh    # Shell into backend container
 docker exec -it frontend /bin/sh   # Shell into frontend container
 
-# Git workflow
-git status
-git add .
-git commit -m "message"
+# Git workflow - See CODING-GUIDELINES.md for detailed workflow
 ```
 
 ## Environment Setup
