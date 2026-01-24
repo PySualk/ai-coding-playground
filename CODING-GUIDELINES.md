@@ -29,6 +29,39 @@ test(api): add integration tests for user endpoints
 chore(deps): update dependencies to latest versions
 ````
 
+## Branch Protection Policy
+
+**CRITICAL RULE: Direct commits to the main branch are STRICTLY PROHIBITED.**
+
+### Policy
+- All changes MUST be developed on a feature branch
+- Feature branches MUST be integrated into main via GitHub Pull Request
+- NO direct commits, pushes, or merges to main are allowed
+- This applies to all contributors, including AI assistants
+
+### Rationale
+- Ensures code review process for all changes
+- Maintains clean, auditable commit history
+- Prevents accidental breaking changes
+- Enables CI/CD validation before merge
+- Facilitates team collaboration and knowledge sharing
+
+### Enforcement
+If you accidentally commit to main:
+````bash
+# Undo the commit but keep changes
+git reset --soft HEAD~1
+
+# Create proper feature branch
+git checkout -b feat/your-feature-name
+
+# Commit to feature branch
+git commit -m "feat(scope): your changes"
+
+# Push feature branch
+git push origin feat/your-feature-name
+````
+
 ## Branch Naming Format
 Use same convention: `type/description-in-kebab-case`
 
@@ -212,13 +245,14 @@ Migration guide added to `docs/MIGRATION.md`
 ## AI Execution Rules
 
 ### Must Do
-1. **Always work on feature branches** - never commit directly to main/master
-2. **Pull before starting** - ensure branch is up to date
-3. **Create comprehensive PRs** with all information needed for human review
-4. **Include testing information** - what was tested and results
-5. **Document breaking changes** clearly with migration steps
-6. **List all modified files** and what changed
-7. **One logical feature** per branch/PR
+1. **NEVER commit directly to main** - ALL changes must go through feature branches and GitHub PRs
+2. **Always work on feature branches** - create a new branch for every change
+3. **Pull before starting** - ensure branch is up to date
+4. **Create comprehensive PRs** with all information needed for human review
+5. **Include testing information** - what was tested and results
+6. **Document breaking changes** clearly with migration steps
+7. **List all modified files** and what changed
+8. **One logical feature** per branch/PR
 
 ### Never Do
 1. **Never commit**: passwords, API keys, tokens, private keys, credentials
