@@ -7,18 +7,18 @@ This is a mobile-first fullstack application playground for exploring AI-assiste
 ## Architecture
 
 ### Frontend (In Progress)
-- **Framework**: Angular 21.1.0
+- **Framework**: Angular 20.3.0
 - **Language**: TypeScript 5.9.2
-- **Build Tool**: Angular CLI 21.1.1 with application builder
-- **Testing**: Vitest 4.0.8
+- **Build Tool**: Angular CLI 20.3.15 with application builder
+- **Testing**: Karma 6.4.0 with Jasmine 5.9.0
 - **Package Manager**: npm 11.7.0
-- **Status**: Bootstrap complete with basic Angular standalone application
+- **Status**: Recreated with Angular 20 using standalone components
 - **Note**: Ionic Framework and Capacitor not yet added
 
 ### Backend (In Progress)
 - **Framework**: Spring Boot 4.0.2
 - **Language**: Kotlin 2.2.21
-- **JDK**: Java 24 (toolchain configured)
+- **JDK**: Java 21 (toolchain configured)
 - **Build Tool**: Gradle with Kotlin DSL
 - **Package**: `org.sualk.aiplayground`
 - **Status**: Bootstrap complete with basic Spring Boot structure
@@ -72,14 +72,22 @@ ai-coding-playground/
 ## Current Dependencies
 
 ### Frontend Angular
-- `@angular/core` ^21.1.0 - Angular core framework
-- `@angular/common` ^21.1.0 - Common Angular directives and pipes
-- `@angular/router` ^21.1.0 - Angular routing
-- `@angular/forms` ^21.1.0 - Forms handling
+- `@angular/core` ^20.3.0 - Angular core framework
+- `@angular/common` ^20.3.0 - Common Angular directives and pipes
+- `@angular/router` ^20.3.0 - Angular routing
+- `@angular/forms` ^20.3.0 - Forms handling
+- `@angular/platform-browser` ^20.3.0 - Browser platform
 - `rxjs` ~7.8.0 - Reactive extensions
-- `@angular/cli` ^21.1.1 - Angular CLI (dev)
-- `vitest` ^4.0.8 - Testing framework (dev)
-- `jsdom` ^27.1.0 - DOM implementation for testing (dev)
+- `tslib` ^2.3.0 - TypeScript runtime library
+- `@angular/cli` ^20.3.15 - Angular CLI (dev)
+- `@angular/build` ^20.3.15 - Angular build system (dev)
+- `@angular/compiler-cli` ^20.3.0 - Angular template compiler (dev)
+- `karma` ~6.4.0 - Test runner (dev)
+- `jasmine-core` ~5.9.0 - Testing framework (dev)
+- `karma-jasmine` ~5.1.0 - Jasmine adapter for Karma (dev)
+- `karma-chrome-launcher` ~3.2.0 - Chrome launcher for Karma (dev)
+- `karma-coverage` ~2.2.0 - Code coverage for Karma (dev)
+- `typescript` ~5.9.2 - TypeScript compiler (dev)
 
 ### Backend Spring Boot
 - `spring-boot-starter-webmvc` - RESTful web services
@@ -91,13 +99,14 @@ ai-coding-playground/
 ## What's Implemented
 
 1. **Frontend Bootstrap**
-   - Angular 21 standalone application initialized
-   - TypeScript 5.9 configuration
-   - Vitest testing framework configured
-   - Basic app component with Angular Signals
+   - Angular 20.3.0 standalone application initialized
+   - TypeScript 5.9.2 configuration
+   - Karma/Jasmine testing framework configured
+   - Basic app component structure
    - Routing infrastructure in place
-   - Prettier configured for code formatting
+   - Prettier configured for code formatting (100 char line width)
    - Application builder with development/production configs
+   - Modern @angular/build system (vite-based)
 
 2. **Backend Bootstrap**
    - Spring Boot 4 application initialized
@@ -154,24 +163,25 @@ cd backend/aiplayground
 
 ### Git Workflow
 - **Main Branch**: `main`
-- **Current Status**: Clean working directory
+- **Current Status**: Changes staged and unstaged (frontend recreation)
 - **Recent Commits**:
-  - `a7a392d` - bootstrap spring boot backend
-  - `512a05f` - first draft of technology document
-  - `5bda200` - Initial commit
+  - `1827ca4` - add MCP configuration and gitignore
+  - `8a2ea1b` - update CLAUDE.MD with Angular frontend details
+  - `741d916` - bootstrap angular frontend
 
 ## Key Decisions & Context
 
-1. **Angular Version**: Using Angular 21 (latest stable)
-2. **Angular Architecture**: Standalone components (no NgModules)
-3. **Frontend Testing**: Vitest instead of Jasmine/Karma
+1. **Angular Version**: Using Angular 20.3.0 (latest stable)
+2. **Angular Architecture**: Standalone components (no NgModules) - default in Angular 20
+3. **Frontend Testing**: Karma/Jasmine (Angular default)
 4. **TypeScript**: Version 5.9.2
-5. **Code Formatting**: Prettier configured with 100 char line width
-6. **Java Version**: Using Java 24 (latest) via toolchain configuration
-7. **Kotlin**: Version 2.2.21 with strict compiler options enabled
-8. **Build Tool**: Gradle with Kotlin DSL preferred over Maven
-9. **Spring Boot**: Using latest stable version 4.0.2
-10. **Mobile-First**: Project designed with mobile as primary target
+5. **Code Formatting**: Prettier configured with 100 char line width, single quotes
+6. **Angular Build**: Modern @angular/build (vite-based) instead of webpack
+7. **Java Version**: Using Java 21 (LTS) via toolchain configuration
+8. **Kotlin**: Version 2.2.21 with strict compiler options enabled
+9. **Build Tool**: Gradle with Kotlin DSL preferred over Maven
+10. **Spring Boot**: Using latest stable version 4.0.2
+11. **Mobile-First**: Project designed with mobile as primary target
 
 ## Planned Features
 
@@ -184,20 +194,22 @@ Based on TECHNOLOGIES.md, the project plans to include:
 - JWT authentication with Spring Security
 - PostgreSQL database with JPA/Hibernate
 - API documentation with Swagger
-- Comprehensive testing (Jest, Playwright, JUnit 5, Testcontainers)
+- Comprehensive testing (Karma/Jasmine, Playwright, JUnit 5, Testcontainers)
 
 ## Notes for AI Assistants
 
 - **Technology Stack**: See TECHNOLOGIES.md for full tech stack details
 - **Frontend Location**: All frontend code is in `frontend/`
-- **Frontend Architecture**: Use standalone components, not NgModules
-- **Frontend Testing**: Vitest configured, use it for unit tests
+- **Frontend Architecture**: Use standalone components (default in Angular 20), not NgModules
+- **Frontend Testing**: Karma/Jasmine configured, use for unit tests
 - **Frontend Formatting**: Prettier configured - run on save or via npm scripts
+- **Angular Version**: Using Angular 20 with modern features (signals, control flow, etc.)
 - **Backend Location**: All backend code is in `backend/aiplayground/`
 - **Package Naming**: Use `org.sualk.aiplayground` for all Kotlin/Java classes
 - **Build Commands**: Use `./gradlew` wrapper for backend, `npm` for frontend
-- **Testing**: Vitest for frontend, JUnit 5 for backend
+- **Testing**: Karma/Jasmine for frontend, JUnit 5 for backend
 - **Code Style**: Follow Angular/TypeScript conventions for frontend, Kotlin conventions for backend
+- **MCP Configuration**: Using angular-cli MCP server for Angular best practices
 
 ## Common Commands
 
@@ -241,12 +253,13 @@ When implementing new features, consider:
 ### Frontend
 1. Adding Ionic Framework 8 for mobile UI components
 2. Configuring Capacitor for native mobile capabilities
-3. Implementing NgRx for complex state management
+3. Implementing Signal-based state management or NgRx
 4. Adding PWA capabilities with @angular/pwa
-5. Creating reusable component library
+5. Creating reusable component library with Angular 20 features
 6. Setting up E2E tests with Playwright
 7. Adding ESLint for code quality
 8. Integrating with backend API
+9. Leveraging Angular 20 features (signals, new control flow, etc.)
 
 ### Backend
 1. Adding Spring Data JPA and PostgreSQL configuration
