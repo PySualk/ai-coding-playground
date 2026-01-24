@@ -20,14 +20,6 @@ This project uses [Tilt](https://tilt.dev) for local development with live reloa
    # Download from https://github.com/tilt-dev/tilt/releases
    ```
 
-3. **kubectl** (for Kubernetes)
-   ```bash
-   # macOS
-   brew install kubectl
-
-   # Or use Docker Desktop's built-in Kubernetes
-   ```
-
 ## Quick Start
 
 1. **Start Tilt**
@@ -66,23 +58,28 @@ The Tilt UI (http://localhost:10350) provides:
 
 ## How It Works
 
+This setup uses **Docker Compose** with Tilt (no Kubernetes required).
+
 ### Backend (Spring Boot)
 
 - **Build**: Multi-stage Docker build using Gradle
 - **Live Reload**: Changes to `.kt` files trigger recompilation
 - **Port**: 8080
+- **Container**: Plain Docker container managed by Compose
 
 ### Frontend (Angular)
 
 - **Build**: Uses Angular dev server in Docker
-- **Live Reload**: File changes sync and trigger automatic reload
+- **Live Reload**: Volume mounts sync file changes automatically
 - **Port**: 4200
+- **Container**: Plain Docker container managed by Compose
 
 ## File Structure
 
 ```
 .
 ├── Tiltfile                 # Tilt configuration
+├── docker-compose.yml       # Docker Compose services
 ├── backend/
 │   ├── Dockerfile           # Multi-stage build (Gradle + JRE)
 │   └── .dockerignore        # Ignore build artifacts
@@ -153,7 +150,8 @@ tilt up backend
 tilt describe backend
 
 # Interactive shell in container
-kubectl exec -it backend -- /bin/sh
+docker exec -it backend /bin/sh
+docker exec -it frontend /bin/sh
 ```
 
 ## Production Builds
@@ -174,7 +172,7 @@ docker run -p 8080:8080 ai-playground-backend:prod
 
 ## Next Steps
 
-- Configure database (PostgreSQL) in Tilt
+- Configure database (PostgreSQL) in docker-compose.yml
 - Add environment variables for configuration
-- Set up production Kubernetes manifests
 - Add health checks and readiness probes
+- Set up production deployment configuration

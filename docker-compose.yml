@@ -1,0 +1,27 @@
+services:
+  backend:
+    image: ai-playground-backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    container_name: backend
+    labels:
+      - "tilt.resource=backend"
+
+  frontend:
+    image: ai-playground-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - "4200:4200"
+    container_name: frontend
+    labels:
+      - "tilt.resource=frontend"
+    volumes:
+      - ./frontend/src:/app/src:delegated
+      - ./frontend/angular.json:/app/angular.json:ro
+      - ./frontend/tsconfig.json:/app/tsconfig.json:ro

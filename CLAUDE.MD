@@ -36,7 +36,15 @@ ai-coding-playground/
 ├── README.md                  # Basic project readme
 ├── TECHNOLOGIES.md           # Detailed technology stack documentation
 ├── CLAUDE.MD                 # This file - AI assistant context
+├── TILT.md                   # Tilt development guide
+├── Tiltfile                  # Tilt configuration for live reload
+├── docker-compose.yml        # Docker Compose service definitions
+├── .dockerignore             # Docker build exclusions
+├── .mcp.json                 # MCP server configuration
 ├── frontend/                 # Angular frontend application
+│   ├── Dockerfile            # Multi-stage Docker build
+│   ├── nginx.conf            # Production nginx configuration
+│   ├── .dockerignore         # Frontend Docker exclusions
 │   ├── angular.json          # Angular CLI configuration
 │   ├── package.json          # npm dependencies and scripts
 │   ├── tsconfig.json         # TypeScript configuration
@@ -56,17 +64,18 @@ ai-coding-playground/
 │           ├── app.routes.ts # Routing configuration
 │           └── app.spec.ts   # Root component tests
 └── backend/
-    └── aiplayground/
-        ├── build.gradle.kts          # Gradle build configuration
-        ├── settings.gradle.kts       # Gradle settings
-        ├── gradle/                   # Gradle wrapper files
-        ├── gradlew                   # Gradle wrapper script (Unix)
-        ├── gradlew.bat              # Gradle wrapper script (Windows)
-        └── src/
-            ├── main/kotlin/org/sualk/aiplayground/
-            │   └── AiplaygroundApplication.kt    # Main Spring Boot application
-            └── test/kotlin/org/sualk/aiplayground/
-                └── AiplaygroundApplicationTests.kt
+    ├── Dockerfile                    # Multi-stage Docker build
+    ├── .dockerignore                 # Backend Docker exclusions
+    ├── build.gradle.kts              # Gradle build configuration
+    ├── settings.gradle.kts           # Gradle settings
+    ├── gradle/                       # Gradle wrapper files
+    ├── gradlew                       # Gradle wrapper script (Unix)
+    ├── gradlew.bat                   # Gradle wrapper script (Windows)
+    └── src/
+        ├── main/kotlin/org/sualk/aiplayground/
+        │   └── AiplaygroundApplication.kt    # Main Spring Boot application
+        └── test/kotlin/org/sualk/aiplayground/
+            └── AiplaygroundApplicationTests.kt
 ```
 
 ## Current Dependencies
@@ -117,7 +126,8 @@ ai-coding-playground/
 3. **Docker & Tilt Setup**
    - Multi-stage Dockerfile for backend (Gradle build + JRE runtime)
    - Multi-stage Dockerfile for frontend (development + production builds)
-   - Tiltfile for local development with live reload
+   - Docker Compose configuration for service orchestration
+   - Tiltfile for local development with live reload (uses Docker Compose)
    - Nginx configuration for production frontend serving
    - Docker ignore files for optimized builds
 
@@ -138,7 +148,7 @@ ai-coding-playground/
 
 ### Option 1: Tilt (Recommended)
 
-Tilt provides a unified development environment with live reload for both frontend and backend.
+Tilt provides a unified development environment with live reload for both frontend and backend using Docker Compose.
 
 ```bash
 # Start both frontend and backend with live reload
@@ -152,6 +162,7 @@ tilt down
 ```
 
 **Features:**
+- Uses Docker Compose (no Kubernetes required)
 - Automatic Docker image building
 - Live reload for code changes (frontend and backend)
 - Unified logs and resource monitoring
@@ -193,11 +204,11 @@ cd backend
 
 ### Git Workflow
 - **Main Branch**: `main`
-- **Current Status**: Changes staged and unstaged (frontend recreation)
+- **Current Status**: Modified files (Docker Compose setup)
 - **Recent Commits**:
-  - `1827ca4` - add MCP configuration and gitignore
-  - `8a2ea1b` - update CLAUDE.MD with Angular frontend details
-  - `741d916` - bootstrap angular frontend
+  - `91e0497` - add Docker and Tilt configuration for local development
+  - `078b10a` - move backend code
+  - `ee8b6c5` - recreate Angular 20 frontend and update documentation
 
 ## Key Decisions & Context
 
@@ -211,7 +222,9 @@ cd backend
 8. **Kotlin**: Version 2.2.21 with strict compiler options enabled
 9. **Build Tool**: Gradle with Kotlin DSL preferred over Maven
 10. **Spring Boot**: Using latest stable version 4.0.2
-11. **Mobile-First**: Project designed with mobile as primary target
+11. **Development Environment**: Tilt with Docker Compose (no Kubernetes)
+12. **Containerization**: Multi-stage Docker builds for optimized images
+13. **Mobile-First**: Project designed with mobile as primary target
 
 ## Planned Features
 
@@ -237,11 +250,13 @@ Based on TECHNOLOGIES.md, the project plans to include:
 - **Backend Location**: All backend code is in `backend/aiplayground/`
 - **Package Naming**: Use `org.sualk.aiplayground` for all Kotlin/Java classes
 - **Build Commands**: Use `./gradlew` wrapper for backend, `npm` for frontend
-- **Development Environment**: Tilt for unified development, Docker for containerization
+- **Development Environment**: Tilt with Docker Compose for live reload (no Kubernetes)
+- **Containerization**: Docker with multi-stage builds for frontend and backend
 - **Testing**: Karma/Jasmine for frontend, JUnit 5 for backend
 - **Code Style**: Follow Angular/TypeScript conventions for frontend, Kotlin conventions for backend
-- **MCP Configuration**: Using angular-cli MCP server for Angular best practices
+- **MCP Configuration**: Using angular-cli and context7 MCP servers
 - **Port Forwarding**: Frontend :4200, Backend :8080
+- **Live Reload**: File changes sync automatically via Docker volumes (frontend) and Tilt (backend)
 
 ## Common Commands
 
@@ -268,10 +283,21 @@ cd backend
 ./gradlew test --tests SpecificTest
 ./gradlew dependencies         # Check dependencies
 
-# Docker - Manual build (not needed with Tilt)
+# Docker Compose - Without Tilt
+docker-compose up                # Start all services
+docker-compose down              # Stop all services
+docker-compose build             # Rebuild images
+docker-compose logs              # View logs
+docker-compose logs -f backend   # Follow backend logs
+
+# Docker - Manual build (not needed with Tilt or Docker Compose)
 docker build -t ai-playground-backend ./backend
 docker build -t ai-playground-frontend ./frontend
 docker build -t ai-playground-frontend:prod --target production ./frontend
+
+# Docker - Debug
+docker exec -it backend /bin/sh    # Shell into backend container
+docker exec -it frontend /bin/sh   # Shell into frontend container
 
 # Git workflow
 git status
@@ -283,9 +309,11 @@ git commit -m "message"
 
 - **Platform**: macOS (Darwin 25.2.0)
 - **Working Directory**: `/Users/wil/workspace/github/ai-coding-playground`
-- **Repository**: Git initialized with GitHub remote (implied)
-- **Container Runtime**: Docker Desktop or compatible
-- **Development Tool**: Tilt for local development orchestration
+- **Repository**: Git initialized with GitHub remote
+- **Container Runtime**: Docker Desktop (or compatible)
+- **Development Tool**: Tilt with Docker Compose (no Kubernetes required)
+- **Node Version**: 22 (in Docker)
+- **Java Version**: 21 (in Docker)
 
 ## Future Additions
 
