@@ -134,7 +134,14 @@ ai-coding-playground/
    - Basic project structure following Spring Boot conventions
    - Test setup with JUnit 5
 
-3. **Docker & Tilt Setup**
+3. **CI/CD**
+   - GitHub Actions workflow for automated testing and builds
+   - Parallel jobs for frontend (Karma tests) and backend (JUnit 5 + Testcontainers)
+   - Runs on push to main, pull requests, and manual dispatch
+   - Gradle and npm dependency caching for faster builds
+   - Test results and build artifacts uploaded
+
+4. **Docker & Tilt Setup**
    - Multi-stage Dockerfile for backend (Gradle build + JRE runtime)
    - Multi-stage Dockerfile for frontend (development + production builds)
    - Docker Compose configuration for service orchestration
@@ -251,6 +258,9 @@ Based on TECHNOLOGIES.md, the project plans to include:
 
 ## Notes for AI Assistants
 
+- **Frontend Testing**: Angular tests using `IonRouterOutlet` require `provideRouter([])` in test configuration
+- **Backend Testing**: Spring Boot tests with database require `@Testcontainers` annotation and dynamic property configuration
+- **CI Environment**: Gradle needs `--no-daemon` flag, Karma needs `--no-watch --no-progress --browsers=ChromeHeadless`
 - **Coding Guidelines**: Follow git workflow, commit message format, and PR guidelines in CODING-GUIDELINES.md
 - **Technology Stack**: See TECHNOLOGIES.md for full tech stack details
 - **Frontend Location**: All frontend code is in `frontend/`
@@ -275,6 +285,12 @@ Based on TECHNOLOGIES.md, the project plans to include:
 ## Common Commands
 
 ```bash
+# GitHub Actions - CI Pipeline
+# Workflow file: .github/workflows/ci.yml
+# Triggers: push to main, PRs to main, manual dispatch
+# Backend: Java 21, Gradle with --no-daemon flag
+# Frontend: Node 22, Karma with --no-watch --no-progress --browsers=ChromeHeadless
+
 # Tilt - Development (Recommended)
 tilt up                        # Start all services with live reload
 tilt down                      # Stop all services
