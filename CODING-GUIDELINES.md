@@ -75,6 +75,80 @@ test/payment-integration
 chore/update-dependencies
 ````
 
+## Test-Driven Development (TDD) - Required Workflow
+
+**TDD is mandatory for all code changes.** Tests must be written BEFORE implementation.
+
+### TDD Cycle
+
+```
+┌─────────────────────────────────────────────────────┐
+│  1. RED    →  Write failing test                    │
+│  2. GREEN  →  Write minimal code to pass            │
+│  3. REFACTOR → Improve code, keep tests passing     │
+│  4. REPEAT →  Next test case                        │
+└─────────────────────────────────────────────────────┘
+```
+
+### TDD Rules for AI Assistants
+
+1. **NEVER write implementation code without a failing test first**
+2. **Show the test failure** before implementing
+3. **Show the test passing** after implementing
+4. **Commit tests and implementation together** (same commit)
+
+### Test-First Commit Messages
+
+````
+test(user): add tests for user creation endpoint
+feat(user): implement user creation endpoint
+
+# Combined approach (preferred):
+feat(user): add user creation endpoint with tests
+````
+
+### TDD in the Development Process
+
+```bash
+# 1. Create feature branch
+git checkout -b feat/feature-name
+
+# 2. Write failing test
+# ... create test file, run tests, see RED
+
+# 3. Implement minimal code
+# ... write code, run tests, see GREEN
+
+# 4. Refactor if needed
+# ... improve code, run tests, still GREEN
+
+# 5. Commit test + implementation together
+git add src/test/... src/main/...
+git commit -m "feat(scope): add feature with tests"
+
+# 6. Repeat for next test case
+```
+
+### Test Coverage Expectations
+
+| Change Type | Test Requirement |
+|-------------|------------------|
+| New feature | Unit tests for all public methods |
+| Bug fix | Regression test that reproduces the bug |
+| Refactor | All existing tests must pass |
+| API endpoint | Integration test with request/response |
+
+### PR Checklist for TDD
+
+Add to PR description:
+````markdown
+## TDD Compliance
+- [ ] Tests written before implementation
+- [ ] All new code has test coverage
+- [ ] All tests pass locally
+- [ ] No test skips or pending tests added
+````
+
 ## Complete Workflow
 
 ### 1. Before Starting Work

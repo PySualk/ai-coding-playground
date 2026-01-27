@@ -225,6 +225,67 @@ cd backend
 - **Main Branch**: `main`
 - **Guidelines**: See CODING-GUIDELINES.md for commit conventions, branch naming, and PR templates
 
+## Test-Driven Development (TDD) - MANDATORY
+
+**All code changes MUST follow TDD.** This is non-negotiable for AI-assisted development.
+
+### The Red-Green-Refactor Cycle
+
+1. **RED** - Write a failing test first
+   - Test must fail for the RIGHT reason (not syntax errors)
+   - Run the test to confirm it fails
+
+2. **GREEN** - Write minimal code to pass
+   - Only enough code to make the test pass
+   - No extra features, no "while I'm here" improvements
+
+3. **REFACTOR** - Clean up while green
+   - Improve code quality
+   - Keep all tests passing
+
+### TDD Commands
+
+```bash
+# Backend - Run all tests
+./gradlew test
+
+# Backend - Run specific test class
+./gradlew test --tests "UserControllerTest"
+
+# Backend - Run with continuous mode
+./gradlew test --continuous
+
+# Frontend - Run tests (headless)
+cd frontend && npm test -- --no-watch --browsers=ChromeHeadless
+
+# Frontend - Run tests (watch mode for TDD)
+cd frontend && npm test
+```
+
+### Test File Locations
+
+| Layer | Location | Naming |
+|-------|----------|--------|
+| Backend unit tests | `backend/src/test/kotlin/org/sualk/aiplayground/` | `*Test.kt` |
+| Backend integration | `backend/src/test/kotlin/org/sualk/aiplayground/` | `*IntegrationTest.kt` |
+| Frontend unit tests | Next to source file | `*.spec.ts` |
+
+### TDD Workflow for AI
+
+1. **Discuss** the feature/fix with the user
+2. **Write the test** - show it to the user
+3. **Run the test** - confirm it fails (RED)
+4. **Implement** - minimal code to pass
+5. **Run the test** - confirm it passes (GREEN)
+6. **Refactor** - if needed, keeping tests green
+7. **Commit** - test and implementation together
+
+### No Exceptions
+
+- Bug fixes → Write a regression test FIRST
+- New features → Write unit tests FIRST
+- Refactoring → Ensure existing tests pass, add tests if coverage gaps exist
+
 ## Key Decisions & Context
 
 1. **Angular Version**: Using Angular 20.3.0 (latest stable)
