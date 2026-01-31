@@ -270,4 +270,249 @@ class UserControllerIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/api/users/by-email?email=invalid-email"))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
     }
+
+    @Test
+    fun `GET users should filter by active status true`() {
+        userRepository.save(User(email = "active1@example.com", firstName = "Active", lastName = "One", active = true))
+        userRepository.save(User(email = "active2@example.com", firstName = "Active", lastName = "Two", active = true))
+        userRepository.save(User(email = "inactive@example.com", firstName = "Inactive", lastName = "User", active = false))
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users?active=true"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content.length()").value(2))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements").value(2))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].active").value(true))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content[1].active").value(true))
+    }
+
+    @Test
+    fun `GET users should filter by active status false`() {
+        userRepository.save(User(email = "active@example.com", firstName = "Active", lastName = "User", active = true))
+        userRepository.save(User(email = "inactive1@example.com", firstName = "Inactive", lastName = "One", active = false))
+        userRepository.save(User(email = "inactive2@example.com", firstName = "Inactive", lastName = "Two", active = false))
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users?active=false"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content.length()").value(2))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements").value(2))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].active").value(false))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content[1].active").value(false))
+    }
+
+    @Test
+    fun `GET users should return all users when active filter not specified`() {
+        userRepository.save(User(email = "active@example.com", firstName = "Active", lastName = "User", active = true))
+        userRepository.save(User(email = "inactive@example.com", firstName = "Inactive", lastName = "User", active = false))
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content.length()").value(2))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements").value(2))
+    }
+
+    @Test
+    fun `PUT users should update active status to false`() {
+        val savedUser = userRepository.save(User(
+            email = "user@example.com",
+            firstName = "Test",
+            lastName = "User",
+            active = true
+        ))
+
+        val updateRequest = UpdateUserRequest(active = false)
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.put("/api/users/${savedUser.id}")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateRequest))
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.active").value(false))
+
+        val updatedUser = userRepository.findById(savedUser.id!!).get()
+        assertFalse(updatedUser.active)
+    }
+
+    @Test
+    fun `PUT users should update active status to true`() {
+        val savedUser = userRepository.save(User(
+            email = "user@example.com",
+            firstName = "Test",
+            lastName = "User",
+            active = false
+        ))
+
+        val updateRequest = UpdateUserRequest(active = true)
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.put("/api/users/${savedUser.id}")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateRequest))
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.active").value(true))
+
+        val updatedUser = userRepository.findById(savedUser.id!!).get()
+        assertTrue(updatedUser.active)
+    }
+
+    @Test
+    fun `PUT users should update only email when only email provided`() {
+        val savedUser = userRepository.save(User(
+            email = "old@example.com",
+            firstName = "Original",
+            lastName = "Name"
+        ))
+
+        val updateRequest = UpdateUserRequest(email = "new@example.com")
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.put("/api/users/${savedUser.id}")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateRequest))
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("new@example.com"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("Original"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("Name"))
+    }
+
+    @Test
+    fun `PUT users should update only firstName when only firstName provided`() {
+        val savedUser = userRepository.save(User(
+            email = "user@example.com",
+            firstName = "Old",
+            lastName = "Name"
+        ))
+
+        val updateRequest = UpdateUserRequest(firstName = "New")
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.put("/api/users/${savedUser.id}")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateRequest))
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("user@example.com"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("New"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("Name"))
+    }
+
+    @Test
+    fun `PUT users should update only lastName when only lastName provided`() {
+        val savedUser = userRepository.save(User(
+            email = "user@example.com",
+            firstName = "First",
+            lastName = "Old"
+        ))
+
+        val updateRequest = UpdateUserRequest(lastName = "New")
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.put("/api/users/${savedUser.id}")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateRequest))
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("user@example.com"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("First"))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("New"))
+    }
+
+    @Test
+    fun `GET users should return empty page when no users exist`() {
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content.length()").value(0))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements").value(0))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.totalPages").value(0))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.empty").value(true))
+    }
+
+    @Test
+    fun `GET users should return last page correctly`() {
+        // Create 5 users
+        for (i in 1..5) {
+            userRepository.save(User(email = "user$i@example.com", firstName = "User", lastName = "$i"))
+        }
+
+        // Request page 1 with size 3 (should get 2 remaining users)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users?page=1&size=3"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content.length()").value(2))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements").value(5))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.totalPages").value(2))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.last").value(true))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.first").value(false))
+    }
+
+    @Test
+    fun `GET users should sort by id in ascending order by default`() {
+        val user3 = userRepository.save(User(email = "user3@example.com", firstName = "User", lastName = "Three"))
+        val user1 = userRepository.save(User(email = "user1@example.com", firstName = "User", lastName = "One"))
+        val user2 = userRepository.save(User(email = "user2@example.com", firstName = "User", lastName = "Two"))
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].id").value(user3.id))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content[1].id").value(user1.id))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content[2].id").value(user2.id))
+    }
+
+    @Test
+    fun `POST users should validate maximum email length`() {
+        val longEmail = "a".repeat(90) + "@example.com" // 102 chars - exceeds 100 limit
+
+        val request = mapOf(
+            "email" to longEmail,
+            "firstName" to "Test",
+            "lastName" to "User"
+        )
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.post("/api/users")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+        )
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.validationErrors").exists())
+    }
+
+    @Test
+    fun `PUT users should validate email format when updating email`() {
+        val savedUser = userRepository.save(User(
+            email = "valid@example.com",
+            firstName = "Test",
+            lastName = "User"
+        ))
+
+        val updateRequest = UpdateUserRequest(email = "invalid-email-format")
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.put("/api/users/${savedUser.id}")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(updateRequest))
+        )
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.validationErrors").exists())
+    }
+
+    @Test
+    fun `GET users with pagination should return correct page metadata`() {
+        // Create 25 users
+        for (i in 1..25) {
+            userRepository.save(User(email = "user$i@example.com", firstName = "User", lastName = "$i"))
+        }
+
+        // Request page 1 (second page) with size 10
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users?page=1&size=10"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content.length()").value(10))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements").value(25))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.totalPages").value(3))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.number").value(1))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.size").value(10))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.first").value(false))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.last").value(false))
+    }
 }

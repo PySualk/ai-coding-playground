@@ -36,9 +36,10 @@ class UserController(
 
     @GetMapping
     fun getAllUsers(
-        @PageableDefault(size = 20, sort = ["id"], direction = Sort.Direction.ASC) pageable: Pageable
+        @PageableDefault(size = 20, sort = ["id"], direction = Sort.Direction.ASC) pageable: Pageable,
+        @RequestParam(required = false) active: Boolean?
     ): ResponseEntity<Page<UserResponse>> {
-        val response = userService.getAllUsers(pageable)
+        val response = userService.getAllUsers(pageable, active)
         return ResponseEntity.ok(response)
     }
 

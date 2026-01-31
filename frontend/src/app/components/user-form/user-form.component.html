@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ isEditMode() ? 'Edit User' : 'Create User' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="onCancel()">Cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-label position="stacked">Email *</ion-label>
+      <ion-input
+        type="email"
+        formControlName="email"
+        placeholder="user@example.com">
+      </ion-input>
+    </ion-item>
+    @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
+      <ion-text color="danger" class="error-message">
+        <p>{{ getErrorMessage('email') }}</p>
+      </ion-text>
+    }
+
+    <ion-item>
+      <ion-label position="stacked">First Name *</ion-label>
+      <ion-input
+        type="text"
+        formControlName="firstName"
+        placeholder="John">
+      </ion-input>
+    </ion-item>
+    @if (userForm.get('firstName')?.invalid && userForm.get('firstName')?.touched) {
+      <ion-text color="danger" class="error-message">
+        <p>{{ getErrorMessage('firstName') }}</p>
+      </ion-text>
+    }
+
+    <ion-item>
+      <ion-label position="stacked">Last Name *</ion-label>
+      <ion-input
+        type="text"
+        formControlName="lastName"
+        placeholder="Doe">
+      </ion-input>
+    </ion-item>
+    @if (userForm.get('lastName')?.invalid && userForm.get('lastName')?.touched) {
+      <ion-text color="danger" class="error-message">
+        <p>{{ getErrorMessage('lastName') }}</p>
+      </ion-text>
+    }
+
+    @if (isEditMode()) {
+      <ion-item>
+        <ion-label>Active</ion-label>
+        <ion-toggle formControlName="active" slot="end"></ion-toggle>
+      </ion-item>
+    }
+
+    <div class="form-actions">
+      <ion-button expand="block" type="submit" [disabled]="!userForm.valid">
+        {{ isEditMode() ? 'Update' : 'Create' }}
+      </ion-button>
+      <ion-button expand="block" fill="outline" type="button" (click)="onCancel()">
+        Cancel
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

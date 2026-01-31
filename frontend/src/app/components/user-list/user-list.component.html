@@ -1,0 +1,54 @@
+<ion-list>
+  @if (loading()) {
+    @for (i of [1, 2, 3]; track i) {
+      <ion-card>
+        <ion-card-header>
+          <ion-skeleton-text [animated]="true" style="width: 60%"></ion-skeleton-text>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-skeleton-text [animated]="true" style="width: 80%"></ion-skeleton-text>
+          <ion-skeleton-text [animated]="true" style="width: 40%"></ion-skeleton-text>
+        </ion-card-content>
+      </ion-card>
+    }
+  } @else {
+    @for (user of users(); track user.id) {
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>{{ user.firstName }} {{ user.lastName }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="user-details">
+            <p class="email">{{ user.email }}</p>
+            <ion-chip [color]="user.active ? 'success' : 'medium'">
+              <ion-label>{{ user.active ? 'Active' : 'Inactive' }}</ion-label>
+            </ion-chip>
+          </div>
+
+          <div class="user-meta">
+            <p class="timestamp">Created: {{ user.createdAt | date: 'short' }}</p>
+            <p class="timestamp">Updated: {{ user.updatedAt | date: 'short' }}</p>
+          </div>
+
+          <div class="user-actions">
+            <ion-button fill="outline" size="small" (click)="onEdit(user)">
+              <ion-icon slot="start" name="create-outline"></ion-icon>
+              Edit
+            </ion-button>
+            <ion-button fill="outline" size="small" color="danger" (click)="onDelete(user)">
+              <ion-icon slot="start" name="trash-outline"></ion-icon>
+              Delete
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    } @empty {
+      <ion-card>
+        <ion-card-content class="empty-state">
+          <p>No users found</p>
+          <p class="empty-hint">Try adjusting your search or filters</p>
+        </ion-card-content>
+      </ion-card>
+    }
+  }
+</ion-list>

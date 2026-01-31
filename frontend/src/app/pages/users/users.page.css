@@ -1,0 +1,13 @@
+ion-card[color='danger'] {
+  margin: 16px;
+}
+
+ion-card[color='danger'] p {
+  margin-bottom: 12px;
+  color: white;
+}
+
+ion-card[color='danger'] ion-button {
+  --color: white;
+  --border-color: white;
+}
