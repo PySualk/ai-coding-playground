@@ -1,6 +1,7 @@
 package org.sualk.aiplayground.application.handler
 
 import jakarta.servlet.http.HttpServletRequest
+import jakarta.validation.ConstraintViolationException
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -49,6 +50,24 @@ class GlobalExceptionHandler {
     ): ResponseEntity<ErrorResponse> {
         val validationErrors = ex.bindingResult.fieldErrors.associate {
             it.field to (it.defaultMessage ?: "Invalid value")
+        }
+        val errorResponse = ErrorResponse(
+            status = HttpStatus.BAD_REQUEST.value(),
+            error = HttpStatus.BAD_REQUEST.reasonPhrase,
+            message = "Validation failed",
+            path = request.requestURI,
+            validationErrors = validationErrors
+        )
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse)
+    }
+
+    @ExceptionHandler(ConstraintViolationException::class)
+    fun handleConstraintViolationException(
+        ex: ConstraintViolationException,
+        request: HttpServletRequest
+    ): ResponseEntity<ErrorResponse> {
+        val validationErrors = ex.constraintViolations.associate {
+            it.propertyPath.toString() to it.message
         }
         val errorResponse = ErrorResponse(
             status = HttpStatus.BAD_REQUEST.value(),

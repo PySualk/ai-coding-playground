@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
@@ -49,12 +50,10 @@ class UserControllerIntegrationTest {
     private lateinit var webApplicationContext: WebApplicationContext
 
     @Autowired
-    private lateinit var objectMapper: ObjectMapper
-
-    @Autowired
     private lateinit var userRepository: UserRepository
 
     private lateinit var mockMvc: MockMvc
+    private val objectMapper = jacksonObjectMapper()
 
     @BeforeEach
     fun setUp() {
