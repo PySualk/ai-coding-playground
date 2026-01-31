@@ -35,8 +35,12 @@ class UserServiceImpl(
         return user.toResponse()
     }
 
-    override fun getAllUsers(pageable: Pageable): Page<UserResponse> {
-        return userRepository.findAll(pageable).map { it.toResponse() }
+    override fun getAllUsers(pageable: Pageable, active: Boolean?): Page<UserResponse> {
+        return if (active != null) {
+            userRepository.findByActive(active, pageable).map { it.toResponse() }
+        } else {
+            userRepository.findAll(pageable).map { it.toResponse() }
+        }
     }
 
     @Transactional

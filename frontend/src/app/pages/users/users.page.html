@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Users</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openCreateModal()">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <app-user-search
+    (searchChange)="handleSearch($event)"
+    (filterChange)="handleFilter($event)">
+  </app-user-search>
+
+  @if (userService.error(); as error) {
+    <ion-card color="danger">
+      <ion-card-content>
+        <p>{{ error }}</p>
+        <ion-button expand="block" fill="outline" (click)="loadUsers(true)">
+          Retry
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  }
+
+  <app-user-list
+    [users]="userService.users()"
+    [loading]="userService.loading()"
+    (userEdit)="openEditModal($event)"
+    (userDelete)="handleDeleteUser($event)">
+  </app-user-list>
+
+  <ion-infinite-scroll
+    threshold="100px"
+    [disabled]="!userService.hasMore()"
+    (ionInfinite)="onInfiniteScroll($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more users...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

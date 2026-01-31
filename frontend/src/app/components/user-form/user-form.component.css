@@ -1,0 +1,20 @@
+.error-message {
+  padding: 4px 16px;
+  font-size: 0.85em;
+}
+
+.error-message p {
+  margin: 4px 0;
+}
+
+.form-actions {
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+ion-item {
+  --padding-start: 16px;
+  --padding-end: 16px;
+}

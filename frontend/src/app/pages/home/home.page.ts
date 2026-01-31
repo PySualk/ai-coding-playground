@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import {
   IonHeader,
   IonToolbar,
@@ -21,6 +22,7 @@ import { rocketOutline, codeSlashOutline, phonePortraitOutline } from 'ionicons/
 @Component({
   selector: 'app-home',
   imports: [
+    RouterLink,
     IonHeader,
     IonToolbar,
     IonTitle,

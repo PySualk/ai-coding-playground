@@ -1,0 +1,19 @@
+<div class="search-container">
+  <ion-searchbar
+    placeholder="Search by name or email"
+    debounce="0"
+    (ionInput)="onSearchInput($event)">
+  </ion-searchbar>
+
+  <ion-segment [value]="selectedFilter()" (ionChange)="onFilterChange($event)">
+    <ion-segment-button value="all">
+      <ion-label>All</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="active">
+      <ion-label>Active</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="inactive">
+      <ion-label>Inactive</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+</div>
