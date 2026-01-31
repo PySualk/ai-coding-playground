@@ -21,8 +21,9 @@ repositories {
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("tools.jackson.module:jackson-module-kotlin")
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
 	// Database
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -33,7 +34,9 @@ dependencies {
 
 	// Testing
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.boot:spring-boot-test-autoconfigure")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
+	testImplementation("io.mockk:mockk:1.13.13")
 	testImplementation(platform("org.testcontainers:testcontainers-bom:1.20.4"))
 	testImplementation("org.testcontainers:testcontainers")
 	testImplementation("org.testcontainers:postgresql")

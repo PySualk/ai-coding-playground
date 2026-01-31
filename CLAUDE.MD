@@ -4,6 +4,29 @@
 
 This is a mobile-first fullstack application playground for exploring AI-assisted development. The project uses modern technologies for both frontend and backend development.
 
+## Quick Start
+
+### Prerequisites
+- Docker Desktop (required for Tilt and database)
+- Node.js 22+ (for local frontend development)
+- Java 21+ (for local backend development)
+- Tilt CLI (optional, for live reload development)
+
+### Initial Setup
+```bash
+# 1. Start database
+docker-compose up -d postgres
+
+# 2. Start all services with Tilt (recommended)
+tilt up
+
+# OR run services locally
+cd backend && ./gradlew bootRun  # Terminal 1
+cd frontend && npm install && npm start  # Terminal 2
+```
+
+Database migrations run automatically on backend startup via Liquibase.
+
 ## Architecture
 
 ### Frontend
@@ -16,19 +39,27 @@ This is a mobile-first fullstack application playground for exploring AI-assiste
 - **Status**: Ionic 8 integrated with standalone components
 - **Note**: Capacitor not yet added (web-only for now)
 
-### Backend (In Progress)
+### Backend
 - **Framework**: Spring Boot 4.0.2
 - **Language**: Kotlin 2.2.21
 - **JDK**: Java 21 (toolchain configured)
 - **Build Tool**: Gradle with Kotlin DSL
 - **Package**: `org.sualk.aiplayground`
-- **Status**: Bootstrap complete with basic Spring Boot structure
+- **Status**: User CRUD API implemented with layered architecture
+- **Architecture**: domain/ (entities, repositories) → application/ (services, controllers, DTOs, exceptions, handlers)
 
-### Database (Planned)
+### Database
 - **Primary**: PostgreSQL 18
 - **ORM**: Spring Data JPA with Hibernate
 - **Migrations**: Liquibase
-- **Status**: Not yet configured
+- **Status**: Configured with User entity and migrations
+
+### Environment Variables
+Required for local development:
+- `CONTEXT7_API_KEY` - Context7 MCP server API key (optional, for documentation features)
+- `DATABASE_URI` - PostgreSQL connection string (default: `postgresql://devuser:devpassword@localhost:5432/aiplayground`)
+
+Docker Compose sets these automatically. For local development, backend uses `application.yml` defaults.
 
 ## Current Project Structure
 
@@ -85,34 +116,28 @@ ai-coding-playground/
             └── AiplaygroundApplicationTests.kt
 ```
 
-## Current Dependencies
+## Key Dependencies
 
-### Frontend Angular + Ionic
-- `@angular/core` ^20.3.0 - Angular core framework
-- `@angular/common` ^20.3.0 - Common Angular directives and pipes
-- `@angular/router` ^20.3.0 - Angular routing
-- `@angular/forms` ^20.3.0 - Forms handling
-- `@angular/platform-browser` ^20.3.0 - Browser platform
-- `@ionic/angular` ^8.4.1 - Ionic Framework for Angular
-- `ionicons` ^7.4.0 - Ionic icon library
-- `rxjs` ~7.8.0 - Reactive extensions
-- `tslib` ^2.3.0 - TypeScript runtime library
-- `@angular/cli` ^20.3.15 - Angular CLI (dev)
-- `@angular/build` ^20.3.15 - Angular build system (dev)
-- `@angular/compiler-cli` ^20.3.0 - Angular template compiler (dev)
-- `karma` ~6.4.0 - Test runner (dev)
-- `jasmine-core` ~5.9.0 - Testing framework (dev)
-- `karma-jasmine` ~5.1.0 - Jasmine adapter for Karma (dev)
-- `karma-chrome-launcher` ~3.2.0 - Chrome launcher for Karma (dev)
-- `karma-coverage` ~2.2.0 - Code coverage for Karma (dev)
-- `typescript` ~5.9.2 - TypeScript compiler (dev)
+### Frontend
+- Angular 20.3.0 (standalone components, signals, vite-based build)
+- Ionic 8.4.1 (mobile-first UI framework)
+- TypeScript 5.9.2
+- Karma/Jasmine for testing
 
-### Backend Spring Boot
-- `spring-boot-starter-webmvc` - RESTful web services
-- `kotlin-reflect` - Kotlin reflection support
-- `jackson-module-kotlin` - JSON serialization for Kotlin
-- `spring-boot-starter-webmvc-test` - Testing utilities
-- `kotlin-test-junit5` - Kotlin testing with JUnit 5
+See `frontend/package.json` for complete dependency list.
+
+### Backend
+- Spring Boot 4.0.2
+- Kotlin 2.2.21
+- Spring Data JPA + Hibernate
+- Liquibase (database migrations)
+- PostgreSQL driver
+- MockK (Kotlin testing)
+- Testcontainers (integration tests)
+
+**Critical**: Use `com.fasterxml.jackson.module:jackson-module-kotlin` (not `tools.jackson.module`)
+
+See `backend/build.gradle.kts` for complete dependency list.
 
 ## What's Implemented
 
@@ -133,6 +158,13 @@ ai-coding-playground/
    - Kotlin configuration with strict compiler options
    - Basic project structure following Spring Boot conventions
    - Test setup with JUnit 5
+   - PostgreSQL 18 database with Liquibase migrations
+   - User entity with JPA annotations and audit fields
+   - UserRepository with Spring Data JPA
+   - User CRUD REST API at /api/users (create, read, update, soft delete)
+   - DTOs for request/response separation
+   - Global exception handling with consistent error responses
+   - Comprehensive testing (10 unit tests + 14 integration tests)
 
 3. **CI/CD**
    - GitHub Actions workflow for automated testing and builds
@@ -149,19 +181,44 @@ ai-coding-playground/
    - Nginx configuration for production frontend serving
    - Docker ignore files for optimized builds
 
+## API Endpoints
+
+### User CRUD (implemented)
+Base URL: `http://localhost:8080/api/users`
+
+```bash
+# Create user
+curl -X POST http://localhost:8080/api/users \
+  -H "Content-Type: application/json" \
+  -d '{"name":"John Doe","email":"john@example.com"}'
+
+# Get all users
+curl http://localhost:8080/api/users
+
+# Get user by ID
+curl http://localhost:8080/api/users/1
+
+# Update user
+curl -X PUT http://localhost:8080/api/users/1 \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Jane Doe","email":"jane@example.com"}'
+
+# Soft delete user
+curl -X DELETE http://localhost:8080/api/users/1
+```
+
+**Note**: Soft delete sets `deletedAt` timestamp; deleted users excluded from queries.
+
 ## What's Not Yet Implemented
 
 1. **Mobile Native**: Capacitor not yet added (web-only for now)
 2. **Frontend State**: NgRx or advanced state management not configured
 3. **Frontend PWA**: PWA capabilities not yet enabled
-4. **Database**: PostgreSQL not configured, no JPA entities
-5. **API Endpoints**: No REST controllers defined
-6. **Security**: Spring Security not configured
-7. **Testing**: Limited test coverage
-8. **API Documentation**: SpringDoc/Swagger not configured
-9. **Frontend-Backend Integration**: No API integration yet
-10. **Ionic Features**: Many Ionic components not yet utilized
-10. **Kubernetes Deployment**: Production K8s manifests not configured
+4. **Security**: Spring Security not configured (no authentication/authorization)
+5. **API Documentation**: SpringDoc/Swagger not configured
+6. **Frontend-Backend Integration**: No API integration yet
+7. **Ionic Features**: Many Ionic components not yet utilized
+8. **Kubernetes Deployment**: Production K8s manifests not configured
 
 ## Development Workflow
 
@@ -258,6 +315,12 @@ Based on TECHNOLOGIES.md, the project plans to include:
 
 ## Notes for AI Assistants
 
+- **Backend Package Structure**: Use layered architecture: domain/ → application/ → infrastructure/
+- **Jackson Dependency**: Must use `com.fasterxml.jackson.module:jackson-module-kotlin` (not `tools.jackson.module`)
+- **UserRepository**: Methods like `findByEmail()` return `Optional<T>`, not nullable `T?`
+- **MockMvc Setup**: Without `@AutoConfigureMockMvc`, use `MockMvcBuilders.webAppContextSetup(webApplicationContext).build()`
+- **Testcontainers**: Integration tests require Docker running - will fail in environments without Docker
+- **Kotlin Unit Testing**: Use MockK (`io.mockk:mockk`) for Kotlin-friendly mocking with Spring Boot
 - **Frontend Testing**: Angular tests using `IonRouterOutlet` require `provideRouter([])` in test configuration
 - **Backend Testing**: Spring Boot tests with database require `@Testcontainers` annotation and dynamic property configuration
 - **CI Environment**: Gradle needs `--no-daemon` flag, Karma needs `--no-watch --no-progress --browsers=ChromeHeadless`
@@ -277,9 +340,13 @@ Based on TECHNOLOGIES.md, the project plans to include:
 - **Containerization**: Docker with multi-stage builds for frontend and backend
 - **Testing**: Karma/Jasmine for frontend, JUnit 5 for backend
 - **Code Style**: Follow Angular/TypeScript conventions for frontend, Kotlin conventions for backend
-- **MCP Configuration**: Using angular-cli and context7 MCP servers
+- **MCP Servers**: 4 servers configured in `.mcp.json`:
+  - `context7` - Library documentation and code examples (requires CONTEXT7_API_KEY)
+  - `angular-cli` - Angular-specific documentation and best practices
+  - `playwright` - Browser automation and E2E testing
+  - `postgres` - Database inspection and queries (connects to local PostgreSQL)
 - **Context7 Usage**: Always use Context7 MCP proactively when needing library/API documentation, code generation, setup or configuration steps without requiring explicit user request
-- **Port Forwarding**: Frontend :4200, Backend :8080
+- **Port Forwarding**: Frontend :4200, Backend :8080, Postgres :5432, Tilt UI :10350
 - **Live Reload**: File changes sync automatically via Docker volumes (frontend) and Tilt (backend)
 
 ## Common Commands
@@ -311,6 +378,7 @@ cd backend
 ./gradlew bootRun              # Run Spring Boot app
 ./gradlew test                 # Run all tests
 ./gradlew test --tests SpecificTest
+./gradlew test --tests "UserServiceImplTest"  # Run specific test class
 ./gradlew dependencies         # Check dependencies
 
 # Docker Compose - Without Tilt
@@ -342,6 +410,38 @@ docker exec -it frontend /bin/sh   # Shell into frontend container
 - **Node Version**: 22 (in Docker)
 - **Java Version**: 21 (in Docker)
 
+## Troubleshooting
+
+### Docker Issues
+```bash
+# Check if Docker is running
+docker ps
+
+# Restart Docker services
+docker-compose down && docker-compose up -d
+
+# Clean rebuild
+docker-compose down -v && docker-compose build --no-cache
+```
+
+### Port Conflicts
+- Frontend :4200, Backend :8080, Postgres :5432 must be available
+- Check with: `lsof -i :4200` or `lsof -i :8080`
+
+### Database Connection Failed
+- Ensure postgres container is healthy: `docker-compose ps`
+- Wait for healthcheck: postgres must be ready before backend starts
+- Check logs: `docker-compose logs postgres`
+
+### Testcontainers Failing
+- Integration tests require Docker running
+- Grant Docker socket access: `/var/run/docker.sock`
+- CI uses `--no-daemon` flag for Gradle
+
+### Tilt Issues
+- Clear Tilt state: `tilt down && rm -rf ~/.tilt-dev`
+- Check Tilt UI at http://localhost:10350 for detailed logs
+
 ## Future Additions
 
 When implementing new features, consider:
@@ -359,11 +459,11 @@ When implementing new features, consider:
 10. Creating reusable Ionic component library
 
 ### Backend
-1. Adding Spring Data JPA and PostgreSQL configuration
-2. Setting up Docker Compose for local PostgreSQL
-3. Implementing REST controllers with proper error handling
-4. Adding Spring Security with JWT
-5. Setting up Liquibase for database migrations
-6. Implementing proper logging with structured logs
-7. Adding health checks and monitoring (Spring Actuator)
-8. Configuring CORS for frontend integration
+1. Adding Spring Security with JWT authentication
+2. Implementing proper logging with structured logs
+3. Adding health checks and monitoring (Spring Actuator)
+4. Configuring CORS for frontend integration
+5. Adding SpringDoc/Swagger for API documentation
+6. Implementing additional domain entities and relationships
+7. Adding caching with Redis
+8. Implementing background job processing
