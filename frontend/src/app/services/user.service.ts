@@ -58,7 +58,9 @@ export class UserService {
         }),
         catchError(error => this.handleError(error))
       )
-      .subscribe();
+      .subscribe({
+        error: () => {} // Error already handled in catchError
+      });
   }
 
   searchUsers(query: string, activeFilter?: 'all' | 'active' | 'inactive') {
@@ -91,7 +93,9 @@ export class UserService {
         }),
         catchError(error => this.handleError(error))
       )
-      .subscribe();
+      .subscribe({
+        error: () => {} // Error already handled in catchError
+      });
   }
 
   getUserById(id: number) {
