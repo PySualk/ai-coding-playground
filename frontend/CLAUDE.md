@@ -80,11 +80,15 @@ See `package.json` for complete dependency list.
 # Install dependencies
 npm install
 
-# Start dev server (http://localhost:4200)
+# Start dev server with Ionic CLI (http://localhost:4200)
 npm start
+# or
+ionic serve
 
 # Build for production
 npm run build
+# or
+ionic build
 
 # Run tests
 npm test
@@ -94,19 +98,24 @@ npm run watch
 
 # Format code with Prettier
 npm run format
+
+# Run Ionic CLI commands directly
+npx ionic --help
 ```
 
 ## Key Decisions & Context
 
 1. **Angular Version**: Using Angular 20.3.0 (latest stable)
-2. **Ionic Version**: Using Ionic 8.4.1 (latest stable)
+2. **Ionic Version**: Using Ionic 8.4.1 (latest stable) with Ionic CLI 7.2.0
 3. **Architecture**: Standalone components (no NgModules) - default in Angular 20
 4. **Ionic Integration**: Standalone Ionic components with provideIonicAngular
-5. **Testing**: Karma/Jasmine (Angular default)
-6. **TypeScript**: Version 5.9.2
-7. **Code Formatting**: Prettier configured with 100 char line width, single quotes
-8. **Build System**: Modern @angular/build (vite-based) instead of webpack
-9. **Mobile-First**: Ionic 8 provides mobile-first UI components
+5. **Development CLI**: Using Ionic CLI for serve/build commands (wraps Angular CLI)
+6. **Project Name**: Angular project named "app" (Ionic CLI default expectation)
+7. **Testing**: Karma/Jasmine (Angular default)
+8. **TypeScript**: Version 5.9.2
+9. **Code Formatting**: Prettier configured with 100 char line width, single quotes
+10. **Build System**: Modern @angular/build (vite-based) instead of webpack
+11. **Mobile-First**: Ionic 8 provides mobile-first UI components
 
 ## Notes for AI Assistants
 
@@ -118,7 +127,7 @@ npm run format
 - **Formatting**: Prettier configured - run on save or via npm scripts
 - **Angular Features**: Using Angular 20 with modern features (signals, control flow, etc.)
 - **Ionic Version**: Using Ionic 8 with web components and mobile-first design
-- **Build Commands**: Use `npm` for all frontend operations
+- **Build Commands**: Use `npm start` or `ionic serve` for dev server, `npm run build` or `ionic build` for production
 - **Code Style**: Follow Angular/TypeScript conventions
 - **CI Environment**: Karma needs `--no-watch --no-progress --browsers=ChromeHeadless`
 - **MCP Servers**:
