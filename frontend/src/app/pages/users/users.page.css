@@ -1,13 +1,53 @@
+/* Users page cyberpunk styling */
+
+/* Error card customization */
 ion-card[color='danger'] {
   margin: 16px;
+  border-color: var(--ion-color-danger);
+  box-shadow:
+    0 0 10px rgba(255, 0, 85, 0.5),
+    0 0 20px rgba(255, 0, 85, 0.3);
+  animation: errorPulse 2s ease-in-out infinite;
+}
+
+@keyframes errorPulse {
+  0%, 100% {
+    box-shadow:
+      0 0 10px rgba(255, 0, 85, 0.5),
+      0 0 20px rgba(255, 0, 85, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 15px rgba(255, 0, 85, 0.7),
+      0 0 30px rgba(255, 0, 85, 0.5);
+  }
 }
 
 ion-card[color='danger'] p {
   margin-bottom: 12px;
   color: white;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 ion-card[color='danger'] ion-button {
   --color: white;
   --border-color: white;
+  --border-width: 2px;
+}
+
+/* Toolbar button glow */
+ion-toolbar ion-button {
+  --box-shadow: var(--glow-primary);
+}
+
+/* Refresher customization */
+ion-refresher {
+  --ion-color-base: var(--ion-color-primary);
+}
+
+/* Infinite scroll customization */
+ion-infinite-scroll-content {
+  --color: var(--ion-color-primary);
 }

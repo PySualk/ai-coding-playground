@@ -116,6 +116,8 @@ npx ionic --help
 9. **Code Formatting**: Prettier configured with 100 char line width, single quotes
 10. **Build System**: Modern @angular/build (vite-based) instead of webpack
 11. **Mobile-First**: Ionic 8 provides mobile-first UI components
+12. **Theming**: Use Ionic CSS variables, shadow parts, and color system for all styling
+13. **CSS Import Order**: All @import rules (including Google Fonts) must come before CSS rules
 
 ## Notes for AI Assistants
 

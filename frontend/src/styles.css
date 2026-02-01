@@ -14,7 +14,214 @@
 @import '@ionic/angular/css/text-transformation.css';
 @import '@ionic/angular/css/flex-utils.css';
 
-/* Custom global styles */
+/* Import Google Fonts for cyberpunk typography */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap');
+
+/* Cyberpunk Retro-Futuristic Theme - Using Ionic CSS Variables */
 :root {
-  --ion-font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Roboto', sans-serif;
+  /* Typography - Bold geometric display font */
+  --ion-font-family: 'Orbitron', 'Exo 2', 'Rajdhani', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Color System - Neon cyberpunk palette */
+  --ion-color-primary: #00ffff;
+  --ion-color-primary-rgb: 0, 255, 255;
+  --ion-color-primary-contrast: #000000;
+  --ion-color-primary-contrast-rgb: 0, 0, 0;
+  --ion-color-primary-shade: #00e0e0;
+  --ion-color-primary-tint: #1affff;
+
+  --ion-color-secondary: #ff00ff;
+  --ion-color-secondary-rgb: 255, 0, 255;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #e000e0;
+  --ion-color-secondary-tint: #ff1aff;
+
+  --ion-color-tertiary: #ffff00;
+  --ion-color-tertiary-rgb: 255, 255, 0;
+  --ion-color-tertiary-contrast: #000000;
+  --ion-color-tertiary-contrast-rgb: 0, 0, 0;
+  --ion-color-tertiary-shade: #e0e000;
+  --ion-color-tertiary-tint: #ffff1a;
+
+  --ion-color-success: #00ff88;
+  --ion-color-success-rgb: 0, 255, 136;
+  --ion-color-success-contrast: #000000;
+  --ion-color-success-contrast-rgb: 0, 0, 0;
+  --ion-color-success-shade: #00e077;
+  --ion-color-success-tint: #1aff94;
+
+  --ion-color-warning: #ff8800;
+  --ion-color-warning-rgb: 255, 136, 0;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e07700;
+  --ion-color-warning-tint: #ff941a;
+
+  --ion-color-danger: #ff0055;
+  --ion-color-danger-rgb: 255, 0, 85;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #e0004b;
+  --ion-color-danger-tint: #ff1a66;
+
+  /* Dark background system */
+  --ion-background-color: #0a0a0f;
+  --ion-background-color-rgb: 10, 10, 15;
+
+  --ion-text-color: #e0e0ff;
+  --ion-text-color-rgb: 224, 224, 255;
+
+  --ion-color-step-50: #1a1a25;
+  --ion-color-step-100: #252530;
+  --ion-color-step-150: #2f2f3b;
+  --ion-color-step-200: #3a3a46;
+  --ion-color-step-250: #454551;
+  --ion-color-step-300: #50505c;
+  --ion-color-step-350: #5b5b67;
+  --ion-color-step-400: #666672;
+  --ion-color-step-450: #71717d;
+  --ion-color-step-500: #7c7c88;
+  --ion-color-step-550: #878793;
+  --ion-color-step-600: #92929e;
+  --ion-color-step-650: #9d9da9;
+  --ion-color-step-700: #a8a8b4;
+  --ion-color-step-750: #b3b3bf;
+  --ion-color-step-800: #bebebc;
+  --ion-color-step-850: #c9c9d5;
+  --ion-color-step-900: #d4d4e0;
+  --ion-color-step-950: #dfdfe0;
+
+  /* Toolbar styling */
+  --ion-toolbar-background: linear-gradient(135deg, #1a1a25 0%, #0a0a0f 100%);
+  --ion-toolbar-color: var(--ion-color-primary);
+  --ion-toolbar-border-color: var(--ion-color-primary);
+
+  /* Card styling with glow */
+  --ion-card-background: rgba(26, 26, 37, 0.9);
+  --ion-card-color: var(--ion-text-color);
+
+  /* Item styling */
+  --ion-item-background: transparent;
+  --ion-item-border-color: rgba(0, 255, 255, 0.2);
+
+  /* Custom glow effects */
+  --glow-primary: 0 0 10px rgba(0, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3);
+  --glow-secondary: 0 0 10px rgba(255, 0, 255, 0.5), 0 0 20px rgba(255, 0, 255, 0.3);
+  --glow-success: 0 0 10px rgba(0, 255, 136, 0.5), 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+/* Global component customization using shadow parts */
+ion-card {
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  box-shadow: var(--glow-primary);
+  backdrop-filter: blur(10px);
+}
+
+ion-card::part(native) {
+  background: linear-gradient(135deg, rgba(26, 26, 37, 0.95) 0%, rgba(10, 10, 15, 0.9) 100%);
+}
+
+ion-toolbar {
+  --border-width: 0 0 2px 0;
+  --border-style: solid;
+  box-shadow: 0 4px 20px rgba(0, 255, 255, 0.2);
+}
+
+ion-button {
+  --border-radius: 0;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+ion-button[color="primary"] {
+  --box-shadow: var(--glow-primary);
+}
+
+ion-button[color="secondary"] {
+  --box-shadow: var(--glow-secondary);
+}
+
+ion-button[color="success"] {
+  --box-shadow: var(--glow-success);
+}
+
+/* Card header styling */
+ion-card-title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--ion-color-primary);
+  text-shadow: var(--glow-primary);
+}
+
+ion-card-subtitle {
+  color: var(--ion-color-secondary);
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+/* Icon glow effects */
+ion-icon {
+  filter: drop-shadow(0 0 3px currentColor);
+}
+
+/* Chip styling */
+ion-chip {
+  --background: transparent;
+  border: 1px solid currentColor;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Skeleton loader styling */
+ion-skeleton-text {
+  --background: rgba(0, 255, 255, 0.1);
+  --background-rgb: 0, 255, 255;
+}
+
+/* List styling */
+ion-list {
+  background: transparent;
+  padding: 0;
+}
+
+/* Header with large title */
+ion-title {
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-shadow: var(--glow-primary);
+}
+
+/* Content background gradient */
+ion-content {
+  --background: linear-gradient(180deg, #0a0a0f 0%, #1a1a25 50%, #0a0a0f 100%);
+}
+
+/* Animated scan line effect */
+ion-content::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--ion-color-primary), transparent);
+  animation: scan 3s linear infinite;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+@keyframes scan {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100vh);
+  }
 }

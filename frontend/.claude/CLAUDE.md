@@ -37,6 +37,9 @@ src/app/
 - Use Ionic's built-in mobile patterns: modal, popover, action-sheet, toast, alert
 - Prefer Ionic components over native HTML for mobile-optimized UX
 - Use `ion-content` as the root element in page templates (provides scroll, pull-to-refresh, infinite-scroll)
+- Customize Ionic components using CSS variables (--background, --color, --border-color, etc.) not direct CSS
+- Use shadow parts (::part(native)) for deeper component customization when CSS variables aren't sufficient
+- Define global theme colors in :root using Ionic's color system (--ion-color-primary, --ion-color-secondary, etc.)
 
 ### Ionic Component Example
 ```typescript

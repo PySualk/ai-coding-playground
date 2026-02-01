@@ -1,45 +1,80 @@
+/* User list component styles - Cyberpunk theme */
+
+/* User details layout */
 .user-details {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
 }
 
 .email {
+  color: var(--ion-color-secondary);
+  font-weight: 600;
   margin: 0;
-  color: var(--ion-color-medium);
-  font-size: 0.9em;
+  font-family: 'Rajdhani', sans-serif;
+  letter-spacing: 0.5px;
 }
 
+/* User metadata */
 .user-meta {
   margin: 12px 0;
-  padding: 8px 0;
-  border-top: 1px solid var(--ion-color-light);
-  border-bottom: 1px solid var(--ion-color-light);
+  padding: 8px;
+  background: rgba(0, 255, 255, 0.05);
+  border-left: 2px solid var(--ion-color-primary);
 }
 
 .timestamp {
+  font-size: 0.85rem;
+  color: rgba(224, 224, 255, 0.6);
   margin: 4px 0;
-  font-size: 0.85em;
-  color: var(--ion-color-medium-shade);
+  font-family: 'Rajdhani', sans-serif;
 }
 
+/* User actions */
 .user-actions {
   display: flex;
   gap: 8px;
-  margin-top: 12px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 255, 255, 0.2);
 }
 
+/* Empty state */
 .empty-state {
   text-align: center;
-  padding: 32px 16px;
+  padding: 40px 20px;
 }
 
 .empty-state p {
-  margin: 8px 0;
+  color: var(--ion-color-primary);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .empty-hint {
-  font-size: 0.9em;
-  color: var(--ion-color-medium);
+  color: rgba(224, 224, 255, 0.6);
+  font-size: 0.9rem !important;
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+  font-weight: 400 !important;
+}
+
+/* Card hover effect */
+ion-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+ion-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--ion-color-primary);
+  box-shadow:
+    var(--glow-primary),
+    0 8px 30px rgba(0, 255, 255, 0.3);
 }
