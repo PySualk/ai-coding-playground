@@ -1,45 +1,272 @@
+/* Editorial Neo-Brutalism - User List Component */
+
+ion-list {
+  background: transparent;
+  padding: var(--space-md);
+  padding-top: 0;
+}
+
+/* User Cards - Magazine Editorial Style */
+ion-card {
+  margin: 0 0 var(--space-lg) 0;
+  border: var(--border-thick) solid var(--color-border);
+  border-radius: 0;
+  background: white;
+  box-shadow: none;
+  overflow: visible;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: cardSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+}
+
+/* Stagger animation for cards */
+ion-card:nth-child(1) { animation-delay: 0.05s; }
+ion-card:nth-child(2) { animation-delay: 0.1s; }
+ion-card:nth-child(3) { animation-delay: 0.15s; }
+ion-card:nth-child(4) { animation-delay: 0.2s; }
+ion-card:nth-child(5) { animation-delay: 0.25s; }
+
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Hover Effect - Brutalist Shadow Pop */
+ion-card:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 8px 8px 0 var(--color-accent);
+}
+
+/* Geometric Corner Accent */
+ion-card::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 24px;
+  height: 24px;
+  background: var(--color-accent);
+  clip-path: polygon(100% 0, 0 0, 100% 100%);
+  z-index: 1;
+}
+
+/* Card Header - Editorial Typography */
+ion-card-header {
+  padding: var(--space-lg) var(--space-md) var(--space-md);
+  border-bottom: var(--border-thin) solid var(--color-border-light);
+  background: linear-gradient(180deg, rgba(255, 107, 53, 0.03) 0%, transparent 100%);
+}
+
+ion-card-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ion-text-color);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Card Content */
+ion-card-content {
+  padding: var(--space-md);
+}
+
+/* User Details Section */
 .user-details {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+  align-items: flex-start;
+  margin-bottom: var(--space-md);
+  gap: var(--space-sm);
 }
 
 .email {
   margin: 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
   color: var(--ion-color-medium);
-  font-size: 0.9em;
+  letter-spacing: 0;
+  line-height: 1.5;
+  word-break: break-all;
+  flex: 1;
 }
 
+/* Status Chip - Brutalist Badge */
+ion-chip {
+  --background: transparent;
+  border: var(--border-medium) solid currentColor;
+  border-radius: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  height: 24px;
+  padding: 0 var(--space-sm);
+  margin: 0;
+  flex-shrink: 0;
+}
+
+ion-chip[color='success'] {
+  color: var(--ion-color-success);
+}
+
+ion-chip[color='medium'] {
+  color: var(--ion-color-medium);
+}
+
+ion-chip ion-label {
+  margin: 0;
+}
+
+/* User Metadata - Timestamp Grid */
 .user-meta {
-  margin: 12px 0;
-  padding: 8px 0;
-  border-top: 1px solid var(--ion-color-light);
-  border-bottom: 1px solid var(--ion-color-light);
+  margin: var(--space-md) 0;
+  padding: var(--space-md) 0;
+  border-top: var(--border-thin) solid var(--color-border-light);
+  border-bottom: var(--border-thin) solid var(--color-border-light);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-sm);
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    rgba(255, 107, 53, 0.02) 10px,
+    rgba(255, 107, 53, 0.02) 20px
+  );
 }
 
 .timestamp {
-  margin: 4px 0;
-  font-size: 0.85em;
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 400;
   color: var(--ion-color-medium-shade);
+  letter-spacing: 0;
+  line-height: 1.4;
 }
 
+.timestamp::first-letter {
+  font-weight: 500;
+  color: var(--color-accent);
+}
+
+/* User Actions - Brutalist Buttons */
 .user-actions {
   display: flex;
-  gap: 8px;
-  margin-top: 12px;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
 }
 
+.user-actions ion-button {
+  --border-radius: 0;
+  --border-width: var(--border-medium);
+  --border-style: solid;
+  --padding-start: var(--space-md);
+  --padding-end: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  height: 36px;
+  flex: 1;
+  margin: 0;
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.user-actions ion-button::part(native) {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.user-actions ion-button:hover::part(native) {
+  transform: translate(-2px, -2px);
+}
+
+.user-actions ion-button:hover {
+  box-shadow: 3px 3px 0 currentColor;
+}
+
+.user-actions ion-button[color='danger']:hover {
+  box-shadow: 3px 3px 0 var(--ion-color-danger);
+}
+
+.user-actions ion-button ion-icon {
+  font-size: 16px;
+}
+
+/* Skeleton Loading State */
+ion-skeleton-text {
+  --background: var(--ion-color-light);
+  --background-rgb: 243, 244, 246;
+  border-radius: 0;
+  margin: var(--space-xs) 0;
+}
+
+/* Empty State - Centered Message */
 .empty-state {
   text-align: center;
-  padding: 32px 16px;
+  padding: var(--space-3xl) var(--space-md);
+  position: relative;
+}
+
+.empty-state::before {
+  content: '∅';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-serif);
+  font-size: 120px;
+  font-weight: 700;
+  color: var(--ion-color-light);
+  z-index: 0;
+  opacity: 0.3;
 }
 
 .empty-state p {
-  margin: 8px 0;
+  margin: var(--space-sm) 0;
+  position: relative;
+  z-index: 1;
+}
+
+.empty-state p:first-child {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ion-text-color);
+  letter-spacing: -0.01em;
 }
 
 .empty-hint {
-  font-size: 0.9em;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
   color: var(--ion-color-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Loading State Cards */
+ion-card:has(ion-skeleton-text) {
+  animation: none;
+}
+
+ion-card:has(ion-skeleton-text)::before {
+  background: var(--ion-color-medium);
+}
+
+ion-card:has(ion-skeleton-text):hover {
+  transform: none;
+  box-shadow: none;
 }

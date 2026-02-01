@@ -1,20 +1,315 @@
-.error-message {
-  padding: 4px 16px;
-  font-size: 0.85em;
+/* Editorial Neo-Brutalism - User Form Component */
+
+/* Modal Backdrop */
+:host {
+  --backdrop-opacity: 0.6;
 }
 
-.error-message p {
-  margin: 4px 0;
+/* Modal Header */
+ion-header {
+  position: relative;
+  background: white;
+  box-shadow: none;
 }
 
+ion-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--border-thick);
+  background: var(--color-border);
+  z-index: 10;
+}
+
+ion-toolbar {
+  --background: white;
+  --border-width: 0;
+  --min-height: 64px;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --padding-start: var(--space-md);
+  --padding-end: var(--space-md);
+}
+
+ion-title {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  padding: 0;
+  color: var(--ion-text-color);
+}
+
+/* Cancel Button in Header */
+ion-header ion-buttons ion-button {
+  --color: var(--ion-text-color);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+/* Content Area */
+ion-content {
+  --background: var(--ion-background-color);
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+/* Form Styling */
+form {
+  padding: var(--space-lg) var(--space-md);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Form Items - Brutalist Input Fields */
+ion-item {
+  --background: white;
+  --border-width: 0;
+  --border-color: transparent;
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-start: var(--space-md);
+  --inner-padding-end: var(--space-md);
+  --inner-padding-top: var(--space-md);
+  --inner-padding-bottom: var(--space-md);
+  --min-height: auto;
+  --highlight-height: 0;
+  --ripple-color: transparent;
+  margin-bottom: var(--space-lg);
+  border: var(--border-medium) solid var(--color-border);
+  padding: 0;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  border-radius: 0;
+}
+
+ion-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 0;
+  background: var(--color-accent);
+  transition: height 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+ion-item.item-has-focus::before {
+  height: 100%;
+}
+
+ion-item.item-has-focus {
+  border-color: var(--color-accent);
+  box-shadow: 4px 4px 0 rgba(255, 107, 53, 0.15);
+}
+
+/* Remove Ionic's default highlight line */
+ion-item::part(native) {
+  border: none;
+  padding: 0;
+}
+
+/* Form Labels */
+ion-label {
+  --color: var(--ion-text-color);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-sm);
+  opacity: 1;
+  transform: none;
+  position: static;
+  max-width: 100%;
+  display: block;
+  margin-top: 0;
+}
+
+/* Ensure stacked labels are properly positioned */
+ion-item ion-label[position='stacked'] {
+  margin-bottom: var(--space-sm);
+  transform: none !important;
+  position: static !important;
+}
+
+/* Form Inputs */
+ion-input {
+  --padding-top: var(--space-sm);
+  --padding-bottom: var(--space-sm);
+  --padding-start: 0;
+  --padding-end: 0;
+  --placeholder-color: var(--ion-color-medium);
+  --placeholder-opacity: 0.6;
+  --color: var(--ion-text-color);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin-top: 0;
+}
+
+ion-input::part(native) {
+  border: none;
+  outline: none;
+  padding: var(--space-sm) 0;
+  border-radius: 0;
+}
+
+/* Toggle Switch - Brutalist */
+ion-toggle {
+  --background: var(--ion-color-light);
+  --background-checked: var(--color-accent);
+  --handle-background: white;
+  --handle-background-checked: white;
+  --border-radius: 0;
+  --handle-border-radius: 0;
+  --handle-width: 24px;
+  --handle-height: 24px;
+  width: 56px;
+  height: 32px;
+  border: var(--border-medium) solid var(--color-border);
+}
+
+/* Error Messages - Bold Alert Style */
+ion-text.error-message {
+  display: block;
+  padding: var(--space-sm) var(--space-md);
+  margin: calc(var(--space-lg) * -1) 0 var(--space-md) 0;
+  background: white;
+  border: var(--border-medium) solid var(--ion-color-danger);
+  border-top: none;
+  position: relative;
+}
+
+ion-text.error-message::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--ion-color-danger);
+}
+
+ion-text.error-message p {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ion-color-danger);
+  letter-spacing: 0.02em;
+}
+
+/* Form Actions - Stacked Buttons */
 .form-actions {
-  padding: 24px 16px;
+  padding: var(--space-lg) 0 var(--space-md);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+  border-top: var(--border-thick) solid var(--color-border);
+  position: relative;
 }
 
-ion-item {
-  --padding-start: 16px;
-  --padding-end: 16px;
+.form-actions::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: var(--border-thick);
+  background: var(--color-accent);
+}
+
+.form-actions ion-button {
+  --border-radius: 0;
+  --border-width: var(--border-medium);
+  --border-style: solid;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  height: 52px;
+  margin: 0;
+  position: relative;
+  overflow: visible;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Submit Button - Primary Action */
+.form-actions ion-button[type='submit'] {
+  --background: var(--color-accent);
+  --background-hover: var(--color-accent-dark);
+  --background-activated: var(--color-accent-dark);
+  --color: white;
+  --border-color: var(--color-border);
+}
+
+.form-actions ion-button[type='submit']:not([disabled]):hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 5px 5px 0 var(--color-border);
+}
+
+.form-actions ion-button[type='submit'][disabled] {
+  --background: var(--ion-color-light);
+  --color: var(--ion-color-medium);
+  --border-color: var(--color-border-light);
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Cancel Button - Secondary Action */
+.form-actions ion-button[fill='outline'] {
+  --background: white;
+  --background-hover: var(--ion-color-light);
+  --background-activated: var(--ion-color-light);
+  --color: var(--ion-text-color);
+  --border-color: var(--color-border);
+}
+
+.form-actions ion-button[fill='outline']:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 3px 3px 0 var(--color-border-light);
+}
+
+/* Micro-interactions */
+@keyframes labelFloat {
+  from {
+    transform: translateY(2px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+ion-item.item-has-focus ion-label {
+  animation: labelFloat 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Focus ring for accessibility */
+ion-button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Override Ionic's item lines */
+ion-item.item-interactive.ion-valid,
+ion-item.item-interactive.ion-invalid,
+ion-item.item-interactive {
+  --full-highlight-height: 0;
+  --inset-highlight-height: 0;
 }

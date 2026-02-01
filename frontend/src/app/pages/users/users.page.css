@@ -1,13 +1,158 @@
+/* Editorial Neo-Brutalism - Users Page */
+
+ion-header {
+  position: relative;
+}
+
+ion-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--border-thick);
+  background: var(--color-border);
+}
+
+ion-toolbar {
+  --background: var(--ion-background-color);
+  --border-width: 0;
+  --min-height: 64px;
+  padding: 0 var(--space-md);
+}
+
+ion-title {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-transform: none;
+  padding: 0;
+}
+
+/* Add Button - Geometric Accent */
+ion-buttons ion-button {
+  --background: var(--color-accent);
+  --background-hover: var(--color-accent-dark);
+  --color: white;
+  --border-radius: 0;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+  height: 40px;
+  width: 40px;
+  position: relative;
+  overflow: visible;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+ion-buttons ion-button::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border: var(--border-medium) solid var(--color-border);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+ion-buttons ion-button:hover::before {
+  inset: -6px;
+}
+
+ion-buttons ion-button ion-icon {
+  font-size: 22px;
+}
+
+/* Content Area */
+ion-content {
+  --background: var(--ion-background-color);
+  --padding-top: var(--space-sm);
+  --padding-bottom: var(--space-xl);
+}
+
+/* Error State - Dramatic Alert */
 ion-card[color='danger'] {
-  margin: 16px;
+  margin: var(--space-md);
+  border: var(--border-thick) solid var(--ion-color-danger);
+  border-radius: 0;
+  background: white;
+  box-shadow: 8px 8px 0 rgba(239, 68, 68, 0.2);
+  position: relative;
+  overflow: visible;
+}
+
+ion-card[color='danger']::before {
+  content: '!';
+  position: absolute;
+  top: -12px;
+  left: var(--space-md);
+  width: 32px;
+  height: 32px;
+  background: var(--ion-color-danger);
+  color: white;
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--border-medium) solid var(--color-border);
+}
+
+ion-card[color='danger'] ion-card-content {
+  padding: var(--space-lg) var(--space-md);
 }
 
 ion-card[color='danger'] p {
-  margin-bottom: 12px;
-  color: white;
+  margin-bottom: var(--space-md);
+  color: var(--ion-color-danger);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 ion-card[color='danger'] ion-button {
+  --background: var(--ion-color-danger);
+  --background-hover: var(--ion-color-danger-shade);
+  --border-radius: 0;
+  --border-width: var(--border-medium);
+  --border-color: var(--color-border);
   --color: white;
-  --border-color: white;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: var(--space-sm);
+}
+
+/* Infinite Scroll */
+ion-infinite-scroll-content {
+  --color: var(--color-accent);
+}
+
+/* Custom Cursor for Interactive Elements */
+ion-button,
+ion-card,
+.clickable {
+  cursor: pointer;
+}
+
+/* Animation Classes */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-in {
+  animation: slideInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
