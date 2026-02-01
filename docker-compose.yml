@@ -50,6 +50,7 @@ services:
     volumes:
       - ./frontend/src:/app/src:delegated
       - ./frontend/angular.json:/app/angular.json:ro
+      - ./frontend/ionic.config.json:/app/ionic.config.json:ro
       - ./frontend/tsconfig.json:/app/tsconfig.json:ro
 
 volumes:
