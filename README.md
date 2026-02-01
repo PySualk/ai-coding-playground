@@ -96,7 +96,7 @@ For native local development:
    ```
 
 3. **Access the application**
-   - Frontend: http://localhost:4200
+   - Frontend: http://localhost:8100
    - Backend: http://localhost:8080
    - Tilt UI: http://localhost:10350
 
@@ -115,7 +115,7 @@ npm install
 npm start
 ```
 
-Visit http://localhost:4200
+Visit http://localhost:8100
 
 #### Backend
 
@@ -167,7 +167,7 @@ cd frontend
 # Install dependencies
 npm install
 
-# Development server (http://localhost:4200)
+# Development server (http://localhost:8100)
 npm start
 
 # Production build
@@ -242,7 +242,6 @@ ai-coding-playground/
 - **[CLAUDE.md](CLAUDE.md)** - Complete project context and architecture
 - **[TECHNOLOGIES.md](TECHNOLOGIES.md)** - Detailed technology stack
 - **[CODING-GUIDELINES.md](CODING-GUIDELINES.md)** - Git workflow and commit conventions
-- **[TILT.md](TILT.md)** - Tilt development guide
 
 ## Technology Stack
 
@@ -278,9 +277,3 @@ See [CODING-GUIDELINES.md](CODING-GUIDELINES.md) for:
 ## License
 
 [Add your license here]
-
-## Support
-
-For issues and questions:
-- Create an issue in the repository
-- See documentation in project markdown files

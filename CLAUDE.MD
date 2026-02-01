@@ -59,7 +59,6 @@ ai-coding-playground/
 ├── TECHNOLOGIES.md           # Detailed technology stack documentation
 ├── CLAUDE.md                 # This file - shared AI assistant context
 ├── CODING-GUIDELINES.md      # Git workflow and commit conventions
-├── TILT.md                   # Tilt development guide
 ├── Tiltfile                  # Tilt configuration for live reload
 ├── docker-compose.yml        # Docker Compose service definitions
 ├── .mcp.json                 # MCP server configuration
@@ -87,7 +86,6 @@ ai-coding-playground/
 4. **Docker & Tilt**: Multi-stage Dockerfiles and Tilt configuration
    - Docker Compose for service orchestration
    - Tiltfile for local development with live reload
-   - See `TILT.md` for details
 
 ## What's Not Yet Implemented
 
@@ -117,16 +115,14 @@ tilt down
 - Automatic Docker image building
 - Live reload for code changes (frontend and backend)
 - Unified logs and resource monitoring
-- Port forwarding: Frontend (:4200), Backend (:8080), Postgres (:5432)
-
-See `TILT.md` for detailed Tilt usage.
+- Port forwarding: Frontend (:8100), Backend (:8080), Postgres (:5432)
 
 ### Option 2: Local Development (Without Docker)
 
 #### Frontend
 ```bash
 cd frontend
-npm install && npm start  # Starts on :4200
+npm install && npm start  # Starts on :8100
 ```
 See `frontend/CLAUDE.md` for all frontend commands.
 
@@ -173,7 +169,7 @@ See `frontend/CLAUDE.md` and `backend/CLAUDE.md` for detailed roadmaps.
 
 ### Development Environment
 - **Tilt**: Use Tilt with Docker Compose for live reload (no Kubernetes)
-- **Ports**: Frontend :4200, Backend :8080, Postgres :5432, Tilt UI :10350
+- **Ports**: Frontend :8100, Backend :8080, Postgres :5432, Tilt UI :10350
 - **Live Reload**: File changes sync automatically via Docker volumes (frontend) and Tilt (backend)
 - **CI Environment**: GitHub Actions with parallel jobs for frontend and backend
 
@@ -245,11 +241,6 @@ docker-compose down && docker-compose up -d
 # Clean rebuild
 docker-compose down -v && docker-compose build --no-cache
 ```
-
-### Port Conflicts
-- Frontend :4200, Backend :8080, Postgres :5432 must be available
-- Check with: `lsof -i :<port>`
-- Kill process: `kill -9 $(lsof -t -i:<port>)`
 
 ### Database Connection Failed
 - Ensure postgres container is healthy: `docker-compose ps`

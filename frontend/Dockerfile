@@ -13,7 +13,7 @@ RUN npm ci
 COPY . .
 
 # Expose Ionic dev server port
-EXPOSE 4200
+EXPOSE 8100
 
 # Start the Ionic development server
 CMD ["npx", "ionic", "serve", "--external", "--no-open", "--poll=2000"]

@@ -80,7 +80,7 @@ See `package.json` for complete dependency list.
 # Install dependencies
 npm install
 
-# Start dev server with Ionic CLI (http://localhost:4200)
+# Start dev server with Ionic CLI (http://localhost:8100)
 npm start
 # or
 ionic serve
@@ -133,14 +133,9 @@ npx ionic --help
 - **MCP Servers**:
   - `angular-cli` - Angular-specific documentation and best practices
   - `playwright` - Browser automation and E2E testing (not yet configured)
-- **Port**: Development server runs on :4200
+- **Port**: Development server runs on :8100
 
 ## Common Issues & Solutions
-
-### Port Conflicts
-- Frontend dev server uses port 4200
-- Check with: `lsof -i :4200`
-- Kill process if needed: `kill -9 $(lsof -t -i:4200)`
 
 ### npm Install Issues
 ```bash
@@ -171,11 +166,3 @@ When implementing new frontend features, consider:
 8. Implementing Ionic theming and dark mode
 9. Adding native device features (camera, geolocation, etc.) via Capacitor
 10. Creating reusable Ionic component library
-
-## Related Documentation
-
-- Main project: `../CLAUDE.md`
-- Backend: `../backend/CLAUDE.md`
-- Technologies: `../TECHNOLOGIES.md`
-- Git workflow: `../CODING-GUIDELINES.md`
-- Tilt setup: `../TILT.md`

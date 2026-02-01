@@ -238,11 +238,3 @@ When implementing new backend features, consider:
 8. Implementing background job processing
 9. Adding validation with Bean Validation API
 10. Implementing pagination and sorting for list endpoints
-
-## Related Documentation
-
-- Main project: `../CLAUDE.md`
-- Frontend: `../frontend/CLAUDE.md`
-- Technologies: `../TECHNOLOGIES.md`
-- Git workflow: `../CODING-GUIDELINES.md`
-- Tilt setup: `../TILT.md`

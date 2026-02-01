@@ -43,7 +43,7 @@ services:
       dockerfile: Dockerfile
       target: development
     ports:
-      - "4200:4200"
+      - "8100:8100"
     container_name: frontend
     labels:
       - "tilt.resource=frontend"
