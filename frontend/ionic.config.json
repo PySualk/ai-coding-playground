@@ -1,0 +1,7 @@
+{
+  "name": "AI Playground",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
