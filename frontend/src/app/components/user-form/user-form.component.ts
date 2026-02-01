@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, output, signal, effect, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output, signal, computed, effect, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import {
   IonHeader,
@@ -46,6 +46,9 @@ export class UserFormComponent {
   isEditMode = signal<boolean>(false);
   private modalController = inject(ModalController);
 
+  // Computed title for the modal
+  modalTitle = computed(() => this.isEditMode() ? 'Edit User' : 'Create User');
+
   constructor(private fb: FormBuilder) {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
@@ -56,7 +59,8 @@ export class UserFormComponent {
 
     // Update form when user input changes
     effect(() => {
-      const currentUser = this.user();
+      // Handle both signal and direct value (for Ionic modal compatibility)
+      const currentUser = typeof this.user === 'function' ? this.user() : null;
       if (currentUser) {
         this.isEditMode.set(true);
         this.userForm.patchValue({
@@ -79,7 +83,7 @@ export class UserFormComponent {
       if (this.isEditMode()) {
         // Edit mode: only send changed fields
         const updateRequest: UpdateUserRequest = {};
-        const currentUser = this.user();
+        const currentUser = typeof this.user === 'function' ? this.user() : null;
 
         if (currentUser && formValue.email !== currentUser.email) {
           updateRequest.email = formValue.email;

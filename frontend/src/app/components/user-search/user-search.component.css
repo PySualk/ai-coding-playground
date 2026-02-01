@@ -1,7 +1,119 @@
+/* Editorial Neo-Brutalism - Search Component */
+
 .search-container {
-  padding: 8px 0;
+  padding: var(--space-md);
+  background: white;
+  border-bottom: var(--border-thick) solid var(--color-border);
+  position: relative;
 }
 
+.search-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--space-md);
+  width: 60px;
+  height: var(--border-thick);
+  background: var(--color-accent);
+}
+
+/* Searchbar Styling */
+ion-searchbar {
+  --background: var(--ion-background-color);
+  --border-radius: 0;
+  --box-shadow: none;
+  --icon-color: var(--color-accent);
+  --placeholder-color: var(--ion-color-medium);
+  --placeholder-font-weight: 400;
+  padding: 0;
+  margin-bottom: var(--space-md);
+  border: var(--border-medium) solid var(--color-border);
+  font-family: var(--font-sans);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+ion-searchbar:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 4px 4px 0 rgba(255, 107, 53, 0.15);
+}
+
+ion-searchbar::part(input) {
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Segment Buttons - Brutalist Tabs */
 ion-segment {
-  margin: 8px 16px;
+  margin: 0;
+  --background: transparent;
+  border: var(--border-medium) solid var(--color-border);
+  padding: 0;
+  display: flex;
+  gap: 0;
+}
+
+ion-segment-button {
+  --background: white;
+  --background-checked: var(--color-accent);
+  --background-hover: var(--ion-color-light);
+  --color: var(--ion-text-color);
+  --color-checked: white;
+  --indicator-height: 0;
+  --border-radius: 0;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  min-height: 44px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-right: var(--border-medium) solid var(--color-border);
+  margin: 0;
+  flex: 1;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+ion-segment-button:last-child {
+  border-right: none;
+}
+
+ion-segment-button::part(indicator-background) {
+  display: none;
+}
+
+/* Segment Button Active State with Diagonal Stripe */
+ion-segment-button.segment-button-checked::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 16px 16px 0;
+  border-color: transparent var(--color-border) transparent transparent;
+}
+
+ion-segment-button ion-label {
+  margin: 0;
+}
+
+/* Animation for segment transition */
+@keyframes segmentPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+ion-segment-button.segment-button-checked {
+  animation: segmentPulse 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

@@ -15,6 +15,135 @@
 @import '@ionic/angular/css/flex-utils.css';
 
 /* Custom global styles */
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=DM+Mono:wght@400;500&family=Archivo:wght@300;400;600;700;900&display=swap');
+
 :root {
-  --ion-font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Roboto', sans-serif;
+  /* Editorial Neo-Brutalism Design System */
+  --ion-font-family: 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Typography Scale */
+  --font-serif: 'Libre Baskerville', Georgia, serif;
+  --font-mono: 'DM Mono', 'Courier New', monospace;
+  --font-sans: 'Archivo', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Color Palette - High Contrast Editorial */
+  --ion-background-color: #FAFAFA;
+  --ion-background-color-rgb: 250, 250, 250;
+
+  --ion-text-color: #0A0A0A;
+  --ion-text-color-rgb: 10, 10, 10;
+
+  /* Electric Tangerine Accent */
+  --color-accent: #FF6B35;
+  --color-accent-dark: #D9572E;
+  --color-accent-light: #FF8A5C;
+
+  /* Brutalist Borders */
+  --color-border: #0A0A0A;
+  --color-border-light: #E0E0E0;
+
+  /* Semantic Colors */
+  --ion-color-primary: #FF6B35;
+  --ion-color-primary-rgb: 255, 107, 53;
+  --ion-color-primary-contrast: #FFFFFF;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #D9572E;
+  --ion-color-primary-tint: #FF8A5C;
+
+  --ion-color-success: #10B981;
+  --ion-color-success-rgb: 16, 185, 129;
+  --ion-color-success-contrast: #FFFFFF;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #0E9F6E;
+  --ion-color-success-tint: #34D399;
+
+  --ion-color-danger: #EF4444;
+  --ion-color-danger-rgb: 239, 68, 68;
+  --ion-color-danger-contrast: #FFFFFF;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #DC2626;
+  --ion-color-danger-tint: #F87171;
+
+  --ion-color-medium: #6B7280;
+  --ion-color-medium-rgb: 107, 114, 128;
+  --ion-color-medium-contrast: #FFFFFF;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #4B5563;
+  --ion-color-medium-tint: #9CA3AF;
+
+  --ion-color-light: #F3F4F6;
+  --ion-color-light-rgb: 243, 244, 246;
+  --ion-color-light-contrast: #0A0A0A;
+  --ion-color-light-contrast-rgb: 10, 10, 10;
+  --ion-color-light-shade: #E5E7EB;
+  --ion-color-light-tint: #F9FAFB;
+
+  /* Spacing Scale - Magazine-inspired */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+
+  /* Border Widths - Brutalist */
+  --border-thin: 1px;
+  --border-medium: 2px;
+  --border-thick: 3px;
+  --border-heavy: 5px;
+}
+
+/* Global Typography */
+body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Utility Classes */
+.serif {
+  font-family: var(--font-serif);
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+/* Grain Texture Overlay */
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
+}
+
+ion-content::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 1000;
+  animation: grain 8s steps(10) infinite;
+  opacity: 0.4;
 }
