@@ -35,9 +35,9 @@ class UserServiceImpl(
         return user.toResponse()
     }
 
-    override fun getAllUsers(pageable: Pageable, active: Boolean?): Page<UserResponse> {
-        return if (active != null) {
-            userRepository.findByActive(active, pageable).map { it.toResponse() }
+    override fun getAllUsers(pageable: Pageable, search: String?, active: Boolean?): Page<UserResponse> {
+        return if (search != null || active != null) {
+            userRepository.searchUsers(search, active, pageable).map { it.toResponse() }
         } else {
             userRepository.findAll(pageable).map { it.toResponse() }
         }
@@ -67,8 +67,7 @@ class UserServiceImpl(
     override fun deleteUser(id: Long) {
         val user = userRepository.findById(id)
             .orElseThrow { UserNotFoundException(id) }
-        user.active = false
-        userRepository.save(user)
+        userRepository.delete(user)
     }
 
     override fun getUserByEmail(email: String): UserResponse {

@@ -1,54 +1,56 @@
 <ion-list>
   @if (loading()) {
     @for (i of [1, 2, 3]; track i) {
-      <ion-card>
-        <ion-card-header>
-          <ion-skeleton-text [animated]="true" style="width: 60%"></ion-skeleton-text>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-skeleton-text [animated]="true" style="width: 80%"></ion-skeleton-text>
-          <ion-skeleton-text [animated]="true" style="width: 40%"></ion-skeleton-text>
-        </ion-card-content>
-      </ion-card>
+      <ion-item lines="full" class="user-item">
+        <div slot="start" class="user-avatar skeleton">
+          <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%; border-radius: 50%"></ion-skeleton-text>
+        </div>
+        <ion-label>
+          <div class="user-header">
+            <ion-skeleton-text [animated]="true" style="width: 40%; height: 20px"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 25%; height: 20px"></ion-skeleton-text>
+          </div>
+          <div class="user-details-row">
+            <ion-skeleton-text [animated]="true" style="width: 60%; height: 16px"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 15%; height: 16px"></ion-skeleton-text>
+          </div>
+        </ion-label>
+      </ion-item>
     }
   } @else {
     @for (user of users(); track user.id) {
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>{{ user.firstName }} {{ user.lastName }}</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <div class="user-details">
-            <p class="email">{{ user.email }}</p>
-            <ion-chip [color]="user.active ? 'success' : 'medium'">
-              <ion-label>{{ user.active ? 'Active' : 'Inactive' }}</ion-label>
-            </ion-chip>
+      <ion-item lines="full" class="user-item" button detail="false" (click)="onEdit(user)">
+        <div slot="start" class="user-avatar">
+          <span class="avatar-text">{{ getInitials(user) }}</span>
+        </div>
+        <ion-label>
+          <div class="user-header">
+            <span class="user-name">{{ user.firstName }} {{ user.lastName }}</span>
+            <div class="user-actions-inline">
+              <ion-chip class="status-chip" [color]="user.active ? 'success' : 'medium'">
+                <ion-label>{{ user.active ? 'Active' : 'Inactive' }}</ion-label>
+              </ion-chip>
+              <ion-button class="action-icon-btn" fill="clear" size="small" (click)="onEdit(user); $event.stopPropagation()">
+                <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+              </ion-button>
+              <ion-button class="action-icon-btn" fill="clear" size="small" color="danger" (click)="onDelete(user); $event.stopPropagation()">
+                <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+              </ion-button>
+            </div>
           </div>
-
-          <div class="user-meta">
-            <p class="timestamp">Created: {{ user.createdAt | date: 'short' }}</p>
-            <p class="timestamp">Updated: {{ user.updatedAt | date: 'short' }}</p>
+          <div class="user-details-row">
+            <span class="user-email">{{ user.email }}</span>
+            <span class="user-timestamp">{{ getRelativeTime(user.updatedAt) }}</span>
           </div>
-
-          <div class="user-actions">
-            <ion-button fill="outline" size="small" (click)="onEdit(user)">
-              <ion-icon slot="start" name="create-outline"></ion-icon>
-              Edit
-            </ion-button>
-            <ion-button fill="outline" size="small" color="danger" (click)="onDelete(user)">
-              <ion-icon slot="start" name="trash-outline"></ion-icon>
-              Delete
-            </ion-button>
-          </div>
-        </ion-card-content>
-      </ion-card>
+        </ion-label>
+      </ion-item>
     } @empty {
-      <ion-card>
-        <ion-card-content class="empty-state">
+      <ion-item lines="none">
+        <ion-label class="empty-state">
           <p>No users found</p>
           <p class="empty-hint">Try adjusting your search or filters</p>
-        </ion-card-content>
-      </ion-card>
+        </ion-label>
+      </ion-item>
     }
   }
 </ion-list>
