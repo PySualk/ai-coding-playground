@@ -73,6 +73,7 @@ ai-coding-playground/
 ## What's Implemented
 
 1. **Frontend**: Angular 20.3.0 + Ionic 8.4.1 application with standalone components
+   - Cyberpunk theme using Ionic CSS variables and theming system
    - See `frontend/CLAUDE.md` for details
 
 2. **Backend**: Spring Boot 4.0.2 + Kotlin 2.2.21 with User CRUD API
