@@ -223,7 +223,7 @@ class UserControllerIntegrationTest {
     }
 
     @Test
-    fun `DELETE users by id should soft delete and return 204`() {
+    fun `DELETE users by id should delete and return 204`() {
         val savedUser = userRepository.save(User(
             email = "todelete@example.com",
             firstName = "Delete",
@@ -233,8 +233,7 @@ class UserControllerIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/${savedUser.id}"))
             .andExpect(MockMvcResultMatchers.status().isNoContent)
 
-        val deletedUser = userRepository.findById(savedUser.id!!).get()
-        assertFalse(deletedUser.active)
+        assertFalse(userRepository.findById(savedUser.id!!).isPresent)
     }
 
     @Test

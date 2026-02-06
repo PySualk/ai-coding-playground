@@ -17,7 +17,7 @@ interface UserRepository : JpaRepository<User, Long> {
 
     @Query("""
         SELECT u FROM User u
-        WHERE (:search IS NULL OR
+        WHERE (:search IS NULL OR :search = '' OR
                LOWER(u.firstName) LIKE LOWER(CONCAT('%', :search, '%')) OR
                LOWER(u.lastName) LIKE LOWER(CONCAT('%', :search, '%')) OR
                LOWER(u.email) LIKE LOWER(CONCAT('%', :search, '%')))

@@ -1,7 +1,9 @@
 package org.sualk.aiplayground.application.service
 
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
+import io.mockk.Runs
 import io.mockk.verify
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -198,7 +200,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    fun `deleteUser should soft delete user`() {
+    fun `deleteUser should delete user`() {
         val userId = 1L
         val user = User(
             id = userId,
@@ -209,12 +211,12 @@ class UserServiceImplTest {
         )
 
         every { userRepository.findById(userId) } returns Optional.of(user)
-        every { userRepository.save(any()) } returns user.apply { active = false }
+        every { userRepository.delete(any()) } just Runs
 
         userService.deleteUser(userId)
 
         verify { userRepository.findById(userId) }
-        verify { userRepository.save(match { it.active == false }) }
+        verify { userRepository.delete(user) }
     }
 
     @Test
