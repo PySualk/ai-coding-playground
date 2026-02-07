@@ -1,5 +1,5 @@
 # Development stage for Tilt
-FROM node:22-alpine AS development
+FROM node:25-alpine AS development
 
 WORKDIR /app
 
@@ -19,7 +19,7 @@ EXPOSE 8100
 CMD ["npx", "ionic", "serve", "--external", "--no-open", "--poll=2000"]
 
 # Build stage
-FROM node:22-alpine AS build
+FROM node:25-alpine AS build
 
 WORKDIR /app
 
