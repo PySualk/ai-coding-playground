@@ -97,7 +97,7 @@ See `build.gradle.kts` for complete dependency list.
 - PostgreSQL 18 database with Liquibase migrations
 - User entity with JPA annotations and audit fields
 - UserRepository with Spring Data JPA
-- User CRUD REST API at /api/users (create, read, update, soft delete)
+- User CRUD REST API at /api/users (create, read, update, delete)
 - DTOs for request/response separation
 - Global exception handling with consistent error responses
 - Comprehensive testing (10 unit tests + 14 integration tests)
@@ -124,11 +124,11 @@ curl -X PUT http://localhost:8080/api/users/1 \
   -H "Content-Type: application/json" \
   -d '{"name":"Jane Doe","email":"jane@example.com"}'
 
-# Soft delete user
+# Delete user (permanent deletion)
 curl -X DELETE http://localhost:8080/api/users/1
 ```
 
-**Note**: Soft delete sets `deletedAt` timestamp; deleted users excluded from queries.
+**Note**: DELETE permanently removes the user from the database. This operation cannot be undone.
 
 ## What's Not Yet Implemented
 

@@ -187,6 +187,8 @@ See `frontend/CLAUDE.md` and `backend/CLAUDE.md` for detailed roadmaps.
 
 **Context7 Usage**: Always use Context7 MCP proactively when needing library/API documentation, code generation, setup or configuration steps without requiring explicit user request
 
+**Playwright Usage**: **ALWAYS** use the Playwright MCP server to verify frontend changes after implementation. Start the dev server, navigate to the page, take screenshots, and interact with the UI to confirm the changes work as expected. This is critical for catching visual bugs and interaction issues early.
+
 ### Testing Requirements
 - **Testcontainers**: Integration tests require Docker running
 - **CI Flags**: Gradle needs `--no-daemon` flag, Karma needs `--no-watch --no-progress --browsers=ChromeHeadless`

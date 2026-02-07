@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, output, signal, effect, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, signal, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import {
   IonHeader,
@@ -36,40 +36,42 @@ import { User, CreateUserRequest, UpdateUserRequest } from '../../models/user.mo
   styleUrl: './user-form.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserFormComponent {
-  user = input<User | null>(null);
-
-  formSubmit = output<CreateUserRequest | UpdateUserRequest>();
-  formCancel = output<void>();
+export class UserFormComponent implements OnInit {
+  // Use regular property for modal componentProps compatibility
+  user: User | null = null;
 
   userForm: FormGroup;
   isEditMode = signal<boolean>(false);
   private modalController = inject(ModalController);
+  private fb = inject(FormBuilder);
 
-  constructor(private fb: FormBuilder) {
+  constructor() {
     this.userForm = this.fb.group({
       email: ['', [Validators.required, Validators.email, Validators.maxLength(100)]],
       firstName: ['', [Validators.required, Validators.maxLength(100)]],
       lastName: ['', [Validators.required, Validators.maxLength(100)]],
       active: [true]
     });
+  }
 
-    // Update form when user input changes
-    effect(() => {
-      const currentUser = this.user();
-      if (currentUser) {
-        this.isEditMode.set(true);
-        this.userForm.patchValue({
-          email: currentUser.email,
-          firstName: currentUser.firstName,
-          lastName: currentUser.lastName,
-          active: currentUser.active
-        });
-      } else {
-        this.isEditMode.set(false);
-        this.userForm.reset({ active: true });
-      }
-    });
+  ngOnInit() {
+    // Initialize form with user data on component init
+    this.initializeForm(this.user);
+  }
+
+  private initializeForm(currentUser: User | null) {
+    if (currentUser) {
+      this.isEditMode.set(true);
+      this.userForm.patchValue({
+        email: currentUser.email,
+        firstName: currentUser.firstName,
+        lastName: currentUser.lastName,
+        active: currentUser.active
+      }, { emitEvent: false });
+    } else {
+      this.isEditMode.set(false);
+      this.userForm.reset({ active: true }, { emitEvent: false });
+    }
   }
 
   async onSubmit() {
@@ -79,7 +81,7 @@ export class UserFormComponent {
       if (this.isEditMode()) {
         // Edit mode: only send changed fields
         const updateRequest: UpdateUserRequest = {};
-        const currentUser = this.user();
+        const currentUser = this.user;
 
         if (currentUser && formValue.email !== currentUser.email) {
           updateRequest.email = formValue.email;

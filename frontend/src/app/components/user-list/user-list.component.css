@@ -1,48 +1,152 @@
-/* User list component styles - Cyberpunk theme */
+/* User list component styles - Compact horizontal layout with cyberpunk theme */
 
-/* User details layout */
-.user-details {
+/* Core Item Styling */
+.user-item {
+  --padding-start: 12px;
+  --padding-end: 12px;
+  --padding-top: 8px;
+  --padding-bottom: 8px;
+  --min-height: 72px;
+  --background: rgba(10, 10, 30, 0.6);
+  --border-color: rgba(0, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.user-item:hover {
+  --background: rgba(0, 255, 255, 0.05);
+  --border-color: var(--ion-color-primary);
+  box-shadow:
+    0 0 15px rgba(0, 255, 255, 0.3),
+    inset 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+/* Avatar Circle */
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
+  border: 2px solid var(--ion-color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 10px rgba(0, 255, 255, 0.5),
+    inset 0 0 5px rgba(0, 255, 255, 0.3);
+  margin-right: 12px;
+  position: relative;
+}
+
+.user-avatar.skeleton {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+
+.avatar-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+}
+
+/* Layout Structure */
+ion-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+}
+
+.user-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-}
-
-.email {
-  color: var(--ion-color-secondary);
-  font-weight: 600;
-  margin: 0;
-  font-family: 'Rajdhani', sans-serif;
-  letter-spacing: 0.5px;
-}
-
-/* User metadata */
-.user-meta {
-  margin: 12px 0;
-  padding: 8px;
-  background: rgba(0, 255, 255, 0.05);
-  border-left: 2px solid var(--ion-color-primary);
-}
-
-.timestamp {
-  font-size: 0.85rem;
-  color: rgba(224, 224, 255, 0.6);
-  margin: 4px 0;
-  font-family: 'Rajdhani', sans-serif;
-}
-
-/* User actions */
-.user-actions {
-  display: flex;
   gap: 8px;
-  margin-top: 16px;
-  padding-top: 12px;
-  border-top: 1px solid rgba(0, 255, 255, 0.2);
+  min-height: 28px;
 }
 
-/* Empty state */
+.user-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.user-actions-inline {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.user-details-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  min-height: 20px;
+}
+
+/* Component Styling */
+.user-email {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  color: var(--ion-color-secondary);
+  opacity: 0.7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+
+.user-timestamp {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 12px;
+  color: rgba(224, 224, 255, 0.5);
+  font-style: italic;
+  opacity: 0.7;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.status-chip {
+  height: 24px;
+  --background: transparent;
+  --color: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid currentColor;
+}
+
+.action-icon-btn {
+  --padding-start: 4px;
+  --padding-end: 4px;
+  --padding-top: 4px;
+  --padding-bottom: 4px;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+}
+
+.action-icon-btn ion-icon {
+  font-size: 18px;
+}
+
+/* Empty State */
 .empty-state {
   text-align: center;
   padding: 40px 20px;
@@ -55,6 +159,7 @@
   margin-bottom: 8px;
   text-transform: uppercase;
   letter-spacing: 1px;
+  font-family: 'Orbitron', sans-serif;
 }
 
 .empty-hint {
@@ -63,18 +168,45 @@
   text-transform: none !important;
   letter-spacing: 0 !important;
   font-weight: 400 !important;
+  font-family: 'Rajdhani', sans-serif;
 }
 
-/* Card hover effect */
-ion-card {
-  transition: all 0.3s ease;
-  cursor: pointer;
+/* Mobile Responsiveness */
+@media (max-width: 576px) {
+  .user-name {
+    font-size: 14px;
+  }
+
+  .user-email {
+    font-size: 13px;
+  }
+
+  .user-timestamp {
+    display: none;
+  }
+
+  .status-chip {
+    font-size: 10px;
+  }
 }
 
-ion-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--ion-color-primary);
-  box-shadow:
-    var(--glow-primary),
-    0 8px 30px rgba(0, 255, 255, 0.3);
+@media (max-width: 400px) {
+  .user-avatar {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+  }
+
+  .avatar-text {
+    font-size: 14px;
+  }
+
+  .action-icon-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .action-icon-btn ion-icon {
+    font-size: 16px;
+  }
 }

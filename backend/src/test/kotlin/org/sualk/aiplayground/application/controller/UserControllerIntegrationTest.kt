@@ -223,7 +223,7 @@ class UserControllerIntegrationTest {
     }
 
     @Test
-    fun `DELETE users by id should soft delete and return 204`() {
+    fun `DELETE users by id should delete and return 204`() {
         val savedUser = userRepository.save(User(
             email = "todelete@example.com",
             firstName = "Delete",
@@ -233,8 +233,7 @@ class UserControllerIntegrationTest {
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/${savedUser.id}"))
             .andExpect(MockMvcResultMatchers.status().isNoContent)
 
-        val deletedUser = userRepository.findById(savedUser.id!!).get()
-        assertFalse(deletedUser.active)
+        assertFalse(userRepository.findById(savedUser.id!!).isPresent)
     }
 
     @Test
@@ -308,6 +307,31 @@ class UserControllerIntegrationTest {
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.jsonPath("$.content.length()").value(2))
             .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements").value(2))
+    }
+
+    @Test
+    fun `GET users should escape LIKE wildcards and not match all users`() {
+        // Create users with specific patterns
+        userRepository.save(User(email = "alice@example.com", firstName = "Alice", lastName = "Smith"))
+        userRepository.save(User(email = "bob@example.com", firstName = "Bob", lastName = "Jones"))
+        userRepository.save(User(email = "charlie@example.com", firstName = "Charlie", lastName = "Wilson"))
+
+        // Search with % wildcard - should NOT match all users (would match all if not escaped)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users").param("search", "%"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content.length()").value(0))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements").value(0))
+
+        // Search with _ wildcard - should NOT match single character names (would match if not escaped)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users").param("search", "_"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content.length()").value(0))
+
+        // Normal search should still work
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users").param("search", "Alice"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content.length()").value(1))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].firstName").value("Alice"))
     }
 
     @Test
