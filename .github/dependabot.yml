@@ -1,0 +1,113 @@
+version: 2
+updates:
+  # Backend - Maven dependencies (Spring Boot, Kotlin)
+  - package-ecosystem: "maven"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "backend"
+      - "maven"
+    commit-message:
+      prefix: "chore(backend)"
+      include: "scope"
+    groups:
+      spring-boot:
+        patterns:
+          - "org.springframework.boot:*"
+      kotlin:
+        patterns:
+          - "org.jetbrains.kotlin:*"
+          - "io.mockk:*"
+      testcontainers:
+        patterns:
+          - "org.testcontainers:*"
+      liquibase:
+        patterns:
+          - "org.liquibase:*"
+
+  # Frontend - npm dependencies (Angular, Ionic)
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "frontend"
+      - "npm"
+    commit-message:
+      prefix: "chore(frontend)"
+      include: "scope"
+    groups:
+      angular:
+        patterns:
+          - "@angular/*"
+          - "@angular-devkit/*"
+          - "@angular-eslint/*"
+      ionic:
+        patterns:
+          - "@ionic/*"
+      typescript:
+        patterns:
+          - "typescript"
+          - "@types/*"
+      testing:
+        patterns:
+          - "jasmine-*"
+          - "karma-*"
+          - "@types/jasmine"
+
+  # Backend Dockerfile
+  - package-ecosystem: "docker"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "09:00"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "backend"
+      - "docker"
+    commit-message:
+      prefix: "chore(docker)"
+      include: "scope"
+
+  # Frontend Dockerfile
+  - package-ecosystem: "docker"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "09:00"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "frontend"
+      - "docker"
+    commit-message:
+      prefix: "chore(docker)"
+      include: "scope"
+
+  # GitHub Actions workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "09:00"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "ci"
+      - "github-actions"
+    commit-message:
+      prefix: "chore(ci)"
+      include: "scope"
