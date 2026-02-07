@@ -135,6 +135,7 @@ npx ionic --help
 - **MCP Servers**:
   - `angular-cli` - Angular-specific documentation and best practices
   - `playwright` - Browser automation and E2E testing (not yet configured)
+- **Playwright Usage**: **ALWAYS** use the Playwright MCP server to verify frontend changes after implementation. Start the dev server, navigate to the page, take screenshots, and interact with the UI to confirm the changes work as expected. This is critical for catching visual bugs and interaction issues early.
 - **Port**: Development server runs on :8100
 
 ## Common Issues & Solutions

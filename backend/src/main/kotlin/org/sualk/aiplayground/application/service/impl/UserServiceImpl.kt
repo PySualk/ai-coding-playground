@@ -36,11 +36,8 @@ class UserServiceImpl(
     }
 
     override fun getAllUsers(pageable: Pageable, search: String?, active: Boolean?): Page<UserResponse> {
-        return if (search != null || active != null) {
-            userRepository.searchUsers(search, active, pageable).map { it.toResponse() }
-        } else {
-            userRepository.findAll(pageable).map { it.toResponse() }
-        }
+        val spec = org.sualk.aiplayground.domain.repository.UserSpecifications.searchUsers(search, active)
+        return userRepository.findAll(spec, pageable).map { it.toResponse() }
     }
 
     @Transactional

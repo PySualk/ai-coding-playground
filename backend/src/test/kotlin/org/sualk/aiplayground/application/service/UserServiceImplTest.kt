@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Pageable
 import org.sualk.aiplayground.application.dto.request.CreateUserRequest
 import org.sualk.aiplayground.application.dto.request.UpdateUserRequest
 import org.sualk.aiplayground.application.exception.UserAlreadyExistsException
@@ -129,15 +130,25 @@ class UserServiceImplTest {
         val pageable = PageRequest.of(0, 20)
         val page = PageImpl(users, pageable, users.size.toLong())
 
-        every { userRepository.findAll(pageable) } returns page
+        every {
+            userRepository.findAll(
+                any<org.springframework.data.jpa.domain.Specification<User>>(),
+                any<Pageable>()
+            )
+        } returns page
 
-        val response = userService.getAllUsers(pageable)
+        val response = userService.getAllUsers(pageable, null, null)
 
         assertEquals(2, response.content.size)
         assertEquals("user1@example.com", response.content[0].email)
         assertEquals("user2@example.com", response.content[1].email)
 
-        verify { userRepository.findAll(pageable) }
+        verify {
+            userRepository.findAll(
+                any<org.springframework.data.jpa.domain.Specification<User>>(),
+                any<Pageable>()
+            )
+        }
     }
 
     @Test
@@ -211,7 +222,7 @@ class UserServiceImplTest {
         )
 
         every { userRepository.findById(userId) } returns Optional.of(user)
-        every { userRepository.delete(any()) } just Runs
+        every { userRepository.delete(any<User>()) } just Runs
 
         userService.deleteUser(userId)
 
@@ -250,5 +261,31 @@ class UserServiceImplTest {
         }
 
         verify { userRepository.findByEmail(email) }
+    }
+
+    @Test
+    fun `getAllUsers should use specifications for search and filter`() {
+        val users = listOf(
+            User(id = 1L, email = "user1@example.com", firstName = "John", lastName = "Doe")
+        )
+        val pageable = PageRequest.of(0, 20)
+        val page = PageImpl(users, pageable, users.size.toLong())
+
+        every {
+            userRepository.findAll(
+                any<org.springframework.data.jpa.domain.Specification<User>>(),
+                any<Pageable>()
+            )
+        } returns page
+
+        val response = userService.getAllUsers(pageable, "test", true)
+
+        assertEquals(1, response.content.size)
+        verify {
+            userRepository.findAll(
+                any<org.springframework.data.jpa.domain.Specification<User>>(),
+                any<Pageable>()
+            )
+        }
     }
 }

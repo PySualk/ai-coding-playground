@@ -310,6 +310,31 @@ class UserControllerIntegrationTest {
     }
 
     @Test
+    fun `GET users should escape LIKE wildcards and not match all users`() {
+        // Create users with specific patterns
+        userRepository.save(User(email = "alice@example.com", firstName = "Alice", lastName = "Smith"))
+        userRepository.save(User(email = "bob@example.com", firstName = "Bob", lastName = "Jones"))
+        userRepository.save(User(email = "charlie@example.com", firstName = "Charlie", lastName = "Wilson"))
+
+        // Search with % wildcard - should NOT match all users (would match all if not escaped)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users").param("search", "%"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content.length()").value(0))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.totalElements").value(0))
+
+        // Search with _ wildcard - should NOT match single character names (would match if not escaped)
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users").param("search", "_"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content.length()").value(0))
+
+        // Normal search should still work
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/users").param("search", "Alice"))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content.length()").value(1))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].firstName").value("Alice"))
+    }
+
+    @Test
     fun `PUT users should update active status to false`() {
         val savedUser = userRepository.save(User(
             email = "user@example.com",
