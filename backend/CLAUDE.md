@@ -135,9 +135,7 @@ curl -X DELETE http://localhost:8080/api/users/1
 1. **Security**: Spring Security not configured (no authentication/authorization)
 2. **API Documentation**: SpringDoc/Swagger not configured
 3. **Monitoring**: Spring Actuator not enabled
-4. **Logging**: Structured logging not configured
-5. **Caching**: Redis or other caching not configured
-6. **CORS**: CORS configuration for frontend integration not set up
+4. **CORS**: CORS configuration for frontend integration not set up
 
 ## Development Commands
 
@@ -229,12 +227,7 @@ curl -X DELETE http://localhost:8080/api/users/1
 When implementing new backend features, consider:
 
 1. Adding Spring Security with JWT authentication
-2. Implementing proper logging with structured logs
-3. Adding health checks and monitoring (Spring Actuator)
-4. Configuring CORS for frontend integration
-5. Adding SpringDoc/Swagger for API documentation
-6. Implementing additional domain entities and relationships
-7. Adding caching with Redis
-8. Implementing background job processing
-9. Adding validation with Bean Validation API
-10. Implementing pagination and sorting for list endpoints
+2. Adding health checks and monitoring (Spring Actuator)
+3. Configuring CORS for frontend integration
+4. Adding SpringDoc/Swagger for API documentation
+5. Adding validation with Bean Validation API

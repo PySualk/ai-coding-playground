@@ -92,8 +92,7 @@ ai-coding-playground/
 
 1. **Mobile Native**: Capacitor not yet added (web-only for now)
 2. **Security**: Spring Security not configured (no authentication/authorization)
-3. **Frontend-Backend Integration**: No API integration yet
-4. **Kubernetes Deployment**: Production K8s manifests not configured
+3. **Kubernetes Deployment**: Production K8s manifests not configured
 
 ## Development Workflow
 
@@ -264,8 +263,7 @@ When implementing new features:
 - **Backend roadmap**: See `backend/CLAUDE.md`
 
 Key priorities:
-1. Frontend-Backend integration
-2. JWT authentication with Spring Security
-3. Capacitor for native mobile (iOS/Android)
-4. API documentation with Swagger
-5. E2E testing with Playwright
+1. API documentation with Swagger
+2. E2E testing with Playwright
+3. JWT authentication with Spring Security
+4. Capacitor for native mobile (iOS/Android)

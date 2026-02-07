@@ -70,9 +70,8 @@ See `package.json` for complete dependency list.
 1. **Mobile Native**: Capacitor not yet added (web-only for now)
 2. **State Management**: NgRx or advanced state management not configured
 3. **PWA**: PWA capabilities not yet enabled
-4. **Backend Integration**: No API integration yet
-5. **Ionic Features**: Many Ionic components not yet utilized
-6. **E2E Testing**: Playwright not yet configured
+4. **Ionic Features**: Many Ionic components not yet utilized
+5. **E2E Testing**: Playwright not yet configured
 
 ## Development Commands
 
@@ -165,7 +164,4 @@ When implementing new frontend features, consider:
 4. Creating more Ionic UI components and pages
 5. Setting up E2E tests with Playwright
 6. Adding ESLint for code quality
-7. Integrating with backend API
-8. Implementing Ionic theming and dark mode
-9. Adding native device features (camera, geolocation, etc.) via Capacitor
-10. Creating reusable Ionic component library
+7. Adding native device features (camera, geolocation, etc.) via Capacitor
